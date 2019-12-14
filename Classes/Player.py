@@ -26,6 +26,33 @@ class Player(pygame.sprite.Sprite):
 
         self.yvel = 0  # скорость вертикального перемещения
         self.onGround = False  # На земле ли я?
+        '''
+        # self.image.set_colorkey(Color(COLOR)) # делаем фон прозрачным
+        #        Анимация движения вправо
+        boltAnim = []
+        for anim in ANIMATION_RIGHT:
+            boltAnim.append((anim, ANIMATION_DELAY))
+        self.boltAnimRight = pyganim.PygAnimation(boltAnim)
+        self.boltAnimRight.play()
+        #        Анимация движения влево        
+        boltAnim = []
+        for anim in ANIMATION_LEFT:
+            boltAnim.append((anim, ANIMATION_DELAY))
+        self.boltAnimLeft = pyganim.PygAnimation(boltAnim)
+        self.boltAnimLeft.play()
+                
+        self.boltAnimStay = pyganim.PygAnimation(ANIMATION_STAY)
+        self.boltAnimStay.play()
+        self.boltAnimStay.blit(self.image, (0, 0)) # По-умолчанию, стоим
+                
+        self.boltAnimJumpLeft= pyganim.PygAnimation(ANIMATION_JUMP_LEFT)
+        self.boltAnimJumpLeft.play()
+                
+        self.boltAnimJumpRight= pyganim.PygAnimation(ANIMATION_JUMP_RIGHT)
+        self.boltAnimJumpRight.play()
+                
+        self.boltAnimJump= pyganim.PygAnimation(ANIMATION_JUMP)
+        self.boltAnimJump.play() '''
 
 
     def Move(self, keys):

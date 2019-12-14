@@ -71,7 +71,7 @@ while True:
 
     for i in blocks:
         surface.blit(i.image, camera.apply(i))
-
+    
     windows.blit(surface, (0, 0))
     pygame.display.flip()
     clock.tick(30)
