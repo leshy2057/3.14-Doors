@@ -1,5 +1,5 @@
 import requests, threading, time, json, random, pygame, sys
-from Classes.Player import Player
+from Classes.Player import Player, AnimatedSprite
 from Classes.Block import Block
 from Classes.Camera import *
 from Classes.Settings import *
@@ -7,6 +7,15 @@ from Classes.Settings import *
 
 map = []
 player = Player()
+def ifpos(player):
+    if player.p == 'l':
+        player = AnimatedSprite(ANIMATION_LEFT)
+    elif player.p == 'r':
+        player = AnimatedSprite(ANIMATION_RIGHT)
+    elif player.p == 'j':
+        player = AnimatedSprite(ANIMATION_JUMP)
+    elif player.p == 'n':
+        player = Player()
 
 
 pygame.init()
@@ -64,7 +73,7 @@ while True:
             sys.exit()
 
     player.Move(pygame.key.get_pressed())
-
+    player.update()
     surface.fill((255, 255, 255))
 
     camera.update(player)

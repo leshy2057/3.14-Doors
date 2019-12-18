@@ -26,33 +26,7 @@ class Player(pygame.sprite.Sprite):
 
         self.yvel = 0  # скорость вертикального перемещения
         self.onGround = False  # На земле ли я?
-        '''
-        # self.image.set_colorkey(Color(COLOR)) # делаем фон прозрачным
-        #        Анимация движения вправо
-        boltAnim = []
-        for anim in ANIMATION_RIGHT:
-            boltAnim.append((anim, ANIMATION_DELAY))
-        self.boltAnimRight = pyganim.PygAnimation(boltAnim)
-        self.boltAnimRight.play()
-        #        Анимация движения влево        
-        boltAnim = []
-        for anim in ANIMATION_LEFT:
-            boltAnim.append((anim, ANIMATION_DELAY))
-        self.boltAnimLeft = pyganim.PygAnimation(boltAnim)
-        self.boltAnimLeft.play()
-                
-        self.boltAnimStay = pyganim.PygAnimation(ANIMATION_STAY)
-        self.boltAnimStay.play()
-        self.boltAnimStay.blit(self.image, (0, 0)) # По-умолчанию, стоим
-                
-        self.boltAnimJumpLeft= pyganim.PygAnimation(ANIMATION_JUMP_LEFT)
-        self.boltAnimJumpLeft.play()
-                
-        self.boltAnimJumpRight= pyganim.PygAnimation(ANIMATION_JUMP_RIGHT)
-        self.boltAnimJumpRight.play()
-                
-        self.boltAnimJump= pyganim.PygAnimation(ANIMATION_JUMP)
-        self.boltAnimJump.play() '''
+        self.p = 'n'
 
 
     def Move(self, keys):
@@ -61,18 +35,22 @@ class Player(pygame.sprite.Sprite):
                 self.Flip()
                 self._movingX = self.speed
             self.xvel = self.speed
+            self.p = 'r'
         elif (keys[pygame.K_a]):
             if (self._movingX == self.speed):
                 self.Flip()
                 self._movingX = -self.speed
             self.xvel = -self.speed
+            self.p = 'l'
 
         if (keys[pygame.K_SPACE]):
             if self.onGround:  # прыгаем, только когда можем оттолкнуться от земли
                 self.yvel = -self.JUMP_POWER
+            self.p = 'j'
 
         if not (keys[pygame.K_d] or keys[pygame.K_a]):  # стоим, когда нет указаний идти
             self.xvel = 0
+            self.p = 'n'
 
         if not self.onGround:
             self.yvel += self.GRAVITY
@@ -84,16 +62,26 @@ class Player(pygame.sprite.Sprite):
         self.rect.x += self.xvel  # переносим свои положение на xvel
         self.Collide(self.xvel, 0, self.walls)
 
+        if self.p == 'l':
+            player = AnimatedSprite(ANIMATION_LEFT)
+        elif self.p == 'r':
+            player = AnimatedSprite(ANIMATION_RIGHT)
+        elif self.p == 'j':
+            player = AnimatedSprite(ANIMATION_JUMP)
+        elif self.p == 'n':
+            player = Player()
+
 
     def Collide(self, xvel, yvel, platforms):
         for p in platforms:
             if pygame.sprite.collide_rect(self, p):  # если есть пересечение платформы с игроком
                 if xvel > 0:  # если движется вправо
                     self.rect.right = p.rect.left  # то не движется вправо
+                    self.p = 'r'
 
                 if xvel < 0:  # если движется влево
                     self.rect.left = p.rect.right  # то не движется влево
-
+                    self.p = 'l'
                 if yvel > 0:  # если падает вниз
                     self.rect.bottom = p.rect.top  # то не падает вниз
                     self.onGround = True  # и становится на что-то твердое
@@ -102,6 +90,7 @@ class Player(pygame.sprite.Sprite):
                 if yvel < 0:  # если движется вверх
                     self.rect.top = p.rect.bottom  # то не движется вверх
                     self.yvel = 0  # и энергия прыжка пропадает
+                    self.p = 'j'
 
 
     def Flip(self):
@@ -113,3 +102,17 @@ class Player(pygame.sprite.Sprite):
         rotated_image = pygame.transform.rotate(self.image, self.rotation)
         new_rect = rotated_image.get_rect(center=center)
         return rotated_image
+
+class AnimatedSprite(Player):
+    def __init__(self, animation_list, x=100, y=100):
+        super().__init__()
+        self.frames = animation_list
+        self.cur_frame = 0
+        self.image = self.frames[self.cur_frame]
+        self.rect = self.rect.move(x, y)
+        self.update()
+
+    def update(self):
+        self.cur_frame = (self.cur_frame + 1) % len(self.frames)
+        self.name = self.frames[self.cur_frame]
+        self.image = pygame.image.load(self.name)
