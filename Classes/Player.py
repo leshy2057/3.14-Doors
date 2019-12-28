@@ -28,6 +28,12 @@ class Player(pygame.sprite.Sprite):
         self.onGround = False  # На земле ли я?
         self.p = 'n'
 
+        self.frames = ANIMATION_STAY
+        self.cur_frame = 0
+        self.image = self.frames[self.cur_frame]
+        # self.rect = self.rect.move(x, y)
+        self.update()
+
 
     def Move(self, keys):
         if (keys[pygame.K_d]):
@@ -63,13 +69,13 @@ class Player(pygame.sprite.Sprite):
         self.Collide(self.xvel, 0, self.walls)
 
         if self.p == 'l':
-            player = AnimatedSprite(ANIMATION_LEFT)
+            self.frames = ANIMATION_LEFT
         elif self.p == 'r':
-            player = AnimatedSprite(ANIMATION_RIGHT)
+            self.frames = ANIMATION_RIGHT
         elif self.p == 'j':
-            player = AnimatedSprite(ANIMATION_JUMP)
+            self.frames = ANIMATION_JUMP
         elif self.p == 'n':
-            player = Player()
+            self.frames = ANIMATION_STAY
 
 
     def Collide(self, xvel, yvel, platforms):
@@ -103,16 +109,9 @@ class Player(pygame.sprite.Sprite):
         new_rect = rotated_image.get_rect(center=center)
         return rotated_image
 
-class AnimatedSprite(Player):
-    def __init__(self, animation_list, x=100, y=100):
-        super().__init__()
-        self.frames = animation_list
-        self.cur_frame = 0
-        self.image = self.frames[self.cur_frame]
-        self.rect = self.rect.move(x, y)
-        self.update()
 
     def update(self):
         self.cur_frame = (self.cur_frame + 1) % len(self.frames)
         self.name = self.frames[self.cur_frame]
         self.image = pygame.image.load(self.name)
+        self.image = pygame.transform.scale(self.image, PLAYER_SIZE)

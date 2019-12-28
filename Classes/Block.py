@@ -9,6 +9,7 @@ class Block(pygame.sprite.Sprite):
         self.image = pygame.image.load("Images/ground_1.png")
         self.image = pygame.transform.scale(self.image, BLOCK_SIZE)
 
+        self.tag = 'Block'
         self.rect = self.image.get_rect()
         self.rect.y = y
         self.rect.x = x
