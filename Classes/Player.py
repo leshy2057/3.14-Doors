@@ -26,7 +26,7 @@ class Player(pygame.sprite.Sprite):
 
         self.yvel = 0  # скорость вертикального перемещения
         self.onGround = False  # На земле ли я?
-        self.p = 'n'
+        self.stage = 'n'
 
         self.frames = ANIMATION_STAY
         self.cur_frame = 0
@@ -41,22 +41,22 @@ class Player(pygame.sprite.Sprite):
                 self.Flip()
                 self._movingX = self.speed
             self.xvel = self.speed
-            self.p = 'r'
+            self.stage = 'r'
         elif (keys[pygame.K_a]):
             if (self._movingX == self.speed):
                 self.Flip()
                 self._movingX = -self.speed
             self.xvel = -self.speed
-            self.p = 'l'
+            self.stage = 'l'
 
         if (keys[pygame.K_SPACE]):
             if self.onGround:  # прыгаем, только когда можем оттолкнуться от земли
                 self.yvel = -self.JUMP_POWER
-            self.p = 'j'
+            self.stage = 'j'
 
         if not (keys[pygame.K_d] or keys[pygame.K_a]):  # стоим, когда нет указаний идти
             self.xvel = 0
-            self.p = 'n'
+            self.stage = 'n'
 
         if not self.onGround:
             self.yvel += self.GRAVITY
@@ -68,13 +68,13 @@ class Player(pygame.sprite.Sprite):
         self.rect.x += self.xvel  # переносим свои положение на xvel
         self.Collide(self.xvel, 0, self.walls)
 
-        if self.p == 'l':
+        if self.stage == 'l':
             self.frames = ANIMATION_LEFT
-        elif self.p == 'r':
+        elif self.stage == 'r':
             self.frames = ANIMATION_RIGHT
-        elif self.p == 'j':
+        elif self.stage == 'j':
             self.frames = ANIMATION_JUMP
-        elif self.p == 'n':
+        elif self.stage == 'n':
             self.frames = ANIMATION_STAY
 
 
