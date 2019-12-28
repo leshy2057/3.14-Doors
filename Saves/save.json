@@ -1,0 +1,13 @@
+{
+  "levels": {
+    "level_1": {
+      "open": true,
+      "moneys": {"1": false}
+    },
+    "level_2": {
+      "open": false,
+      "moneys": {"1": false, "2": false}
+    }
+  }
+}
+
