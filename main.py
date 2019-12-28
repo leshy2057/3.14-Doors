@@ -1,12 +1,6 @@
 import requests, threading, time, json, random, pygame, sys
-from Classes.Player import Player
-from Classes.Block import Block
-from Classes.Camera import *
+from Classes.Levels import Menus
 from Classes.Settings import *
-
-
-map = []
-player = Player()
 
 
 pygame.init()
@@ -16,65 +10,28 @@ pygame.display.set_caption("Test")
 
 surface = pygame.Surface((WIN_WIDTH, WIN_HEIGHT))
 
-blocks = pygame.sprite.Group()
-wallList = pygame.sprite.Group()
-platforms = []
-
-level = [
-       "-                           -|",
-       "-                           -|",
-       "-                           -|",
-       "-                           -|",
-       "-                           -|",
-       "-                       -----|",
-       "-                   --  -----|",
-       "---------        --     -----|",
-       "-           ---         -----|",
-       "-                       -----|",
-]
-
-x, y, step = 0, 0, 32
-level_for = ""
-for i in level: level_for += i
-for symbol in level_for:
-    if (symbol == "-"):
-        block = Block(x, y)
-        blocks.add_internal(block)
-        wallList.add_internal(block)
-        x += step
-    elif (symbol == "|"):
-        x = 0
-        y += step
-    else:
-        x += step
-blocks.add_internal(player)
-player.walls = wallList
-
-
-total_level_width = len(level[0]) * BLOCK_SIZE[0]  # Высчитываем фактическую ширину уровня
-total_level_height = len(level) * BLOCK_SIZE[1]  # высоту
-camera = Camera(camera_configure, total_level_width, total_level_height)
-
+MENU = Menus.Menu(surface)
+LEVEL_SELECTOR = Menus.LevelSelector(surface)
+GAME = None
+runGame = True
 
 pygame.key.set_repeat(1, 10)
-while True:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            runGame = False
-            sys.exit()
+while runGame:
+    if (Menus.currentStage == "Menu"):
+        MENU.Update(windows)
+        if (GAME):
+            GAME = None
+    elif (Menus.currentStage == "Level Selector"):
+        LEVEL_SELECTOR.Update(windows)
+        if (GAME):
+            GAME = None
+    elif (Menus.currentStage == "Game"):
+        if (not GAME):
+            GAME = Menus.Game(windows)
+        GAME.Update(windows)
 
-    player.Move(pygame.key.get_pressed())
-    player.update()
-    surface.fill((255, 255, 255))
-
-    camera.update(player)
-
-    for i in blocks:
-        surface.blit(i.image, camera.apply(i))
-    
-    windows.blit(surface, (0, 0))
-    pygame.display.flip()
     clock.tick(30)
+    pygame.display.flip()
 
 
 pygame.quit()
