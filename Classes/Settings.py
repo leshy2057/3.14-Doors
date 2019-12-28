@@ -12,6 +12,8 @@ COLOR = (0, 0, 0)
 WIN_WIDTH = 700  # Ширина создаваемого окна
 WIN_HEIGHT = 400  # Высота
 
+PAUSE_TO_LOAD = 0.1
+
 ANIMATION_DELAY = 0.1 # скорость смены кадров
 ANIMATION_RIGHT = [('Images\\Animations\\Player\\run_r1.png'),
                    ('Images\\Animations\\Player\\run_r2.png'),

@@ -10,12 +10,26 @@ pygame.display.set_caption("Test")
 
 surface = pygame.Surface((WIN_WIDTH, WIN_HEIGHT))
 
-GAME = Menus.Game(surface)
+MENU = Menus.Menu(surface)
+LEVEL_SELECTOR = Menus.LevelSelector(surface)
+GAME = None
 runGame = True
 
 pygame.key.set_repeat(1, 10)
 while runGame:
-    GAME.Update(windows, runGame)
+    if (Menus.currentStage == "Menu"):
+        MENU.Update(windows)
+        if (GAME):
+            GAME = None
+    elif (Menus.currentStage == "Level Selector"):
+        LEVEL_SELECTOR.Update(windows)
+        if (GAME):
+            GAME = None
+    elif (Menus.currentStage == "Game"):
+        if (not GAME):
+            GAME = Menus.Game(windows)
+        GAME.Update(windows)
+
     clock.tick(30)
     pygame.display.flip()
 
