@@ -1,6 +1,6 @@
 import requests, threading, time, json, random, pygame, sys
 from Classes.Player import Player
-from Classes.Block import Block
+from Classes.Block import *
 from Classes.Camera import *
 from Classes.Settings import *
 from Classes.UI.Button import Button
@@ -45,13 +45,14 @@ class Menus:
             self.levelButtons = [
                 Button(x=0, y=0, w=100, h=100, text="1", color=(230, 230, 230), onColor=(200, 200, 200), pressColor=(150, 150, 150), func=lambda: self.ToGame("level_1")),
                 Button(x=100, y=0, w=100, h=100, text="2", color=(230, 230, 230), onColor=(200, 200, 200), pressColor=(150, 150, 150), func=lambda: self.ToGame("level_2")),
-                Button(x=200, y=0, w=100, h=100, text="3", color=(230, 230, 230), onColor=(200, 200, 200), pressColor=(150, 150, 150), func=lambda: self.ToGame("level_3"))
+                Button(x=200, y=0, w=100, h=100, text="3", color=(230, 230, 230), onColor=(200, 200, 200), pressColor=(150, 150, 150), func=lambda: self.ToGame("level_3")),
             ]
 
         def ToGame(self, level_name):
-            Menus.currentStage = "Game"
-            Menus.currentLevel = level_name
-            time.sleep(PAUSE_TO_LOAD)
+            if (SavesManager.save["levels"][level_name]["open"]):
+                Menus.currentStage = "Game"
+                Menus.currentLevel = level_name
+                time.sleep(PAUSE_TO_LOAD)
         
         def ToMenu(self):
             Menus.currentStage = "Menu"
@@ -77,12 +78,14 @@ class Menus:
             self.surface = surface
             self.level_name = Menus.currentLevel
 
+            self.on_level_collect = 0
+
             self.map = []
             self.player = Player()
 
             self.blocks = pygame.sprite.Group()
             self.wallList = pygame.sprite.Group()
-            self.platforms = []
+            self.prefabs = []
 
             self.camera = None
 
@@ -95,10 +98,15 @@ class Menus:
             Menus.currentLevel = ""
             time.sleep(PAUSE_TO_LOAD)
 
+        def OpenNextLevel(self):
+            SavesManager.save["levels"][self.levels_list[Menus.currentLevel]]["open"] = True
+
         def GenerateLevel(self):
             try:
                 with open("Levels\\levels.json", "r") as levels:
-                    self.level = json.load(levels)[self.level_name]
+                    data = json.load(levels)
+                    self.level = data[self.level_name]
+                    self.levels_list = data["levels_list"]
             except:
                 raise Exception("Level not found in json!")
 
@@ -111,6 +119,21 @@ class Menus:
                     block = Block(x, y)
                     self.blocks.add_internal(block)
                     self.wallList.add_internal(block)
+                    x += step
+                elif (symbol == "C"):
+                    coin = Coin(x, y)
+                    self.blocks.add_internal(coin)
+                    self.wallList.add_internal(coin)
+                    x += step
+                elif (symbol == "D"):
+                    door = Door(x, y)
+                    self.blocks.add_internal(door)
+                    self.wallList.add_internal(door)
+                    x += step
+                elif (symbol == "K"):
+                    key = Key(x, y)
+                    self.blocks.add_internal(key)
+                    self.wallList.add_internal(key)
                     x += step
                 elif (symbol == "|"):
                     x = 0
@@ -137,8 +160,15 @@ class Menus:
             self.camera.update(self.player)
 
             for i in self.blocks:
-                self.surface.blit(i.image, self.camera.apply(i))
+                if (not i.use):
+                    self.surface.blit(i.image, self.camera.apply(i))
 
             self.buttonMenu.Update(self.surface)
-    
+
+            if (self.player.inDoor):
+                SavesManager.ApeendMoneys(SavesManager, self.player.on_level_collect)
+                self.OpenNextLevel()
+                SavesManager.SaveGame(SavesManager)
+                self.ToLevelSelector()
+
             windows.blit(self.surface, (0, 0))

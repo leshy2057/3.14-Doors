@@ -3,17 +3,23 @@ from Classes.Settings import *
 
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self, position=[100, 100], rotation=0, walls=[]):
+    def __init__(self, position=[100, 100], rotation=0, walls=[], on_level_collect=0):
         super().__init__()
 
         self.position = position
         self.rotation = rotation
         self.color = ""
 
+        self.on_level_collect = on_level_collect
+
         self.image = pygame.image.load("Images\\Animations\\Player\\playerTest.png")
         self.image = pygame.transform.scale(self.image, PLAYER_SIZE)
 
         self.walls = walls
+
+        self.on_level_collect = 0
+        self.getKey = False
+        self.inDoor = False
 
         self.speed = PLAYER_SPEED
         self._movingX = self.speed
@@ -31,7 +37,9 @@ class Player(pygame.sprite.Sprite):
         self.frames = ANIMATION_STAY
         self.cur_frame = 0
         self.image = self.frames[self.cur_frame]
-        # self.rect = self.rect.move(x, y)
+
+        self.use = False
+
         self.update()
 
 
@@ -41,18 +49,25 @@ class Player(pygame.sprite.Sprite):
                 self.Flip()
                 self._movingX = self.speed
             self.xvel = self.speed
-            self.stage = 'r'
+            if (not keys[pygame.K_SPACE]):
+                self.stage = 'r'
         elif (keys[pygame.K_a]):
             if (self._movingX == self.speed):
                 self.Flip()
                 self._movingX = -self.speed
             self.xvel = -self.speed
-            self.stage = 'l'
+            if (not keys[pygame.K_SPACE]):
+                self.stage = 'l'
 
         if (keys[pygame.K_SPACE]):
             if self.onGround:  # прыгаем, только когда можем оттолкнуться от земли
                 self.yvel = -self.JUMP_POWER
-            self.stage = 'j'
+            if (keys[pygame.K_d]):
+                self.stage = 'jr'
+            if (keys[pygame.K_a]):
+                self.stage = 'jl'
+            else:
+                self.stage = 'j'
 
         if not (keys[pygame.K_d] or keys[pygame.K_a]):  # стоим, когда нет указаний идти
             self.xvel = 0
@@ -74,29 +89,42 @@ class Player(pygame.sprite.Sprite):
             self.frames = ANIMATION_RIGHT
         elif self.stage == 'j':
             self.frames = ANIMATION_JUMP
+        elif self.stage == 'jr':
+            self.frames = ANIMATION_JUMP_LEFT
+        elif self.stage == 'jl':
+            self.frames = ANIMATION_JUMP_LEFT
         elif self.stage == 'n':
             self.frames = ANIMATION_STAY
 
 
     def Collide(self, xvel, yvel, platforms):
-        for p in platforms:
-            if pygame.sprite.collide_rect(self, p):  # если есть пересечение платформы с игроком
-                if xvel > 0:  # если движется вправо
-                    self.rect.right = p.rect.left  # то не движется вправо
-                    self.p = 'r'
+        for prefab in platforms:
+            if pygame.sprite.collide_rect(self, prefab):  # если есть пересечение платформы с игроком
+                if (prefab.tag == "Block"):
+                    if xvel > 0:  # если движется вправо
+                        self.rect.right = prefab.rect.left  # то не движется вправо
+                        self.p = 'r'
 
-                if xvel < 0:  # если движется влево
-                    self.rect.left = p.rect.right  # то не движется влево
-                    self.p = 'l'
-                if yvel > 0:  # если падает вниз
-                    self.rect.bottom = p.rect.top  # то не падает вниз
-                    self.onGround = True  # и становится на что-то твердое
-                    self.yvel = 0  # и энергия падения пропадает
+                    if xvel < 0:  # если движется влево
+                        self.rect.left = prefab.rect.right  # то не движется влево
+                        self.p = 'l'
+                    if yvel > 0:  # если падает вниз
+                        self.rect.bottom = prefab.rect.top  # то не падает вниз
+                        self.onGround = True  # и становится на что-то твердое
+                        self.yvel = 0  # и энергия падения пропадает
 
-                if yvel < 0:  # если движется вверх
-                    self.rect.top = p.rect.bottom  # то не движется вверх
-                    self.yvel = 0  # и энергия прыжка пропадает
-                    self.p = 'j'
+                    if yvel < 0:  # если движется вверх
+                        self.rect.top = prefab.rect.bottom  # то не движется вверх
+                        self.yvel = 0  # и энергия прыжка пропадает
+                        self.p = 'j'
+                elif (prefab.tag == "Coin" and not prefab.use):
+                    self.on_level_collect += 1
+                    prefab.use = True
+                elif (prefab.tag == "Key" and not prefab.use):
+                    self.getKey = True
+                    prefab.use = True
+                elif (prefab.tag == "Door" and not prefab.use and self.getKey):
+                    self.inDoor = True
 
 
     def Flip(self):
