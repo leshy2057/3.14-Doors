@@ -10,7 +10,7 @@ class Player(pygame.sprite.Sprite):
         self.rotation = rotation
         self.color = ""
 
-        self.image = pygame.image.load("Images\\playerTest.png")
+        self.image = pygame.image.load("Images\\Animations\\Player\\playerTest.png")
         self.image = pygame.transform.scale(self.image, PLAYER_SIZE)
 
         self.walls = walls
