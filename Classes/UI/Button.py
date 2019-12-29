@@ -17,11 +17,14 @@ class Button(object):
         self.font = pygame.font.Font(None, fontSize)
 
         self.text = text
-        if (self.name and LANGUAGE in LANGUAGE_FILE):
-            self.text = LANGUAGE_FILE[LANGUAGE][name]
+        if (self.name and SavesManager.LANGUAGE in SavesManager.LANGUAGE_FILE):
+            self.text = SavesManager.LANGUAGE_FILE[SavesManager.LANGUAGE][name]
         self.event = func
 
     def Update(self, screen):
+        if (self.name and SavesManager.LANGUAGE in SavesManager.LANGUAGE_FILE):
+            self.text = SavesManager.LANGUAGE_FILE[SavesManager.LANGUAGE][self.name]
+
         if (not self.OnButton()):
             bg = self.normalColor
         elif (self.OnButton() and bool(pygame.mouse.get_pressed()[0])):

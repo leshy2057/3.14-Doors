@@ -12,7 +12,6 @@ class Menus:
     currentStage = "Menu"
     currentLevel = ""
 
-
     class Menu:
         def __init__(self, surface):
             self.surface = surface
@@ -29,11 +28,13 @@ class Menus:
             time.sleep(PAUSE_TO_LOAD)
 
         def Exit(self):
+            SavesManager.SaveGame(SavesManager)
             sys.exit()
 
         def Update(self, windows):
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
+                    SavesManager.SaveGame(SavesManager)
                     sys.exit()
 
             self.surface.fill((255, 255, 255))
@@ -46,15 +47,41 @@ class Menus:
     class Settings:
         def __init__(self, surface):
             self.surface = surface
-            self.sliderVolume = Slider()
+            self.sliderVolume = Slider(text="Volume", x=150, y=20, w=400, h=100, out_x=20)
+            self.buttonMenu = Button(x=150, y=280, w=400, h=100, name="Menu", text="Menu", color=(0, 230, 230), onColor=(0, 200, 200), pressColor=(0, 150, 150), fontSize=25, func=self.ToMenu)
+
+            self.languages_button = [
+                Button(x=150, y=140, w=180, h=100, name="Ru", text="Russian", color=(0, 230, 230), onColor=(0, 200, 200), pressColor=(0, 150, 150), fontSize=25, func=lambda: self.ChangeLanguage("ru")),
+                Button(x=370, y=140, w=180, h=100, name="En", text="English", color=(0, 230, 230), onColor=(0, 200, 200), pressColor=(0, 150, 150), fontSize=25, func=lambda: self.ChangeLanguage("en")),
+            ]
+
+        def ToMenu(self):
+            Menus.currentStage = "Menu"
+            time.sleep(PAUSE_TO_LOAD)
+
+        def ChangeLanguage(self, name):
+            SavesManager.save["settings"]["language"] = name
+            SavesManager.ChangeLanguage(SavesManager)
+
+        def ChangeVolume(self, volume):
+            SavesManager.save["settings"]["volume"] = volume
+            SavesManager.ChangeVolume(SavesManager)
+
 
         def Update(self, windows):
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
+                    SavesManager.SaveGame(SavesManager)
                     sys.exit()
 
             self.surface.fill((255, 255, 255))
             self.sliderVolume.Update(self.surface)
+            self.ChangeVolume(self.sliderVolume.value)
+            self.buttonMenu.Update(self.surface)
+
+            for button in self.languages_button:
+                button.Update(self.surface)
+
             windows.blit(self.surface, (0, 0))
 
 
@@ -83,6 +110,7 @@ class Menus:
         def Update(self, windows):
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
+                    SavesManager.SaveGame(SavesManager)
                     sys.exit()
 
             self.surface.fill((255, 255, 255))
@@ -173,6 +201,7 @@ class Menus:
         def Update(self, windows):
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
+                    SavesManager.SaveGame(SavesManager)
                     sys.exit()
 
             self.player.Move(pygame.key.get_pressed())

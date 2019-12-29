@@ -3,7 +3,7 @@ from Classes.Settings import *
 
 
 class Slider():
-    def __init__(self, x=20, y=20, w=300, h=50, value=0, minValue=0, maxValue=1, text="Text", fontSize=20, color=(200, 200, 200), sliderColor=(200, 0, 0), sliderBackgroundColor=(100, 100, 100)):
+    def __init__(self, x=100, y=20, w=300, h=50, out_x=10, backgroundSliderH=10, sliderW=10, sliderH=20, value=0, minValue=0, maxValue=1, text="Text", fontSize=20, color=(200, 200, 200), sliderColor=(200, 0, 0), sliderBackgroundColor=(100, 100, 100)):
         self.normalColor = color
         self.sliderColor = sliderColor
         self.sliderBackgroundColor = sliderBackgroundColor
@@ -13,36 +13,40 @@ class Slider():
         self.w = w
         self.h = h
 
-        self.value = value
+        self.out_x = out_x
+
+        self.value = SavesManager.AUDIO_VOLUME
         self.minValue = minValue
         self.maxValue = maxValue
 
         self.font = pygame.font.Font(None, fontSize)
 
-        self.backgroundSlider = pygame.surface.Surface((w, 10))
+        self.backgroundSlider = pygame.surface.Surface((w - 2 * self.out_x, backgroundSliderH))
         self.slider = pygame.surface.Surface((10, 20))
 
-        self.sliderX = self.x
         self.sliderY = 0
-        self.sliderW = 10
-        self.sliderH = 20
-
-        self.step = (self.maxValue - self.minValue) / (self.w + self.x - self.sliderW)
+        self.sliderW = sliderW
+        self.sliderH = sliderH
+        self.sliderX = (self.value - self.minValue)*(self.w - 2 * self.out_x - self.sliderW) / (self.maxValue - self.minValue) + 2*self.out_x + self.x - self.sliderW
 
         self.text = text
-        self.use = False
 
 
     def Update(self, screen):
         use = self.OnSlider() and pygame.mouse.get_pressed()[0]
         if (use):
             self.sliderX = pygame.mouse.get_pos()[0]
-            if (self.sliderX + self.sliderW >= self.x + self.w):
-                self.sliderX = self.w + self.x - self.sliderW
-            elif (self.sliderX <= self.x):
-                self.sliderX = self.x
+            if (self.sliderX + self.sliderW >= self.x - self.out_x + 1 + self.w):
+                self.sliderX = self.w + self.x - self.sliderW - self.out_x + 1
+            elif (self.sliderX <= self.x + self.out_x - 1):
+                self.sliderX = self.x + self.out_x - 1
 
-        self.value = (self.x + self.sliderX - self.sliderW) * self.step
+
+        self.value = (self.sliderX + self.sliderW - self.x - 2 * self.out_x) / (self.w - 2 * self.out_x - self.sliderW) * (self.maxValue - self.minValue) + self.minValue
+
+        if (self.value < self.minValue + 0.1): self.value = self.minValue
+        if (self.value > self.maxValue): self.value = self.maxValue
+
         surf = self.font.render(f"{self.text}: %.1f" % self.value, True, (0, 0, 0), self.normalColor)
         rect = (self.x, self.y, self.w, self.h)
         self.backgroundSlider.fill(self.sliderBackgroundColor)
@@ -55,7 +59,7 @@ class Slider():
 
         self.sliderY = yo_S
 
-        screen.blit(self.backgroundSlider, (self.x, yo_B))
+        screen.blit(self.backgroundSlider, (self.out_x + self.x, yo_B))
         screen.blit(self.slider, (self.sliderX, yo_S))
 
 

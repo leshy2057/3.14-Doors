@@ -2,7 +2,16 @@ import json
 
 
 class SavesManager:
-    save = {"player": {"jump_level": 1, "speed_level": 1, "moneys": 0}, "levels": {"level_1": {"open": True}, "level_2": {"open": False}, "level_3": {"open": False}}}
+    save = {"player": {"jump_level": 1, "speed_level": 1, "moneys": 0}, "levels": {"level_1": {"open": True}, "level_2": {"open": False}, "level_3": {"open": False}}, "settings": {"language": "en", "volume": 1}}
+
+    LANGUAGE_PATH = "Languages\\languages.json"
+
+    LANGUAGE_FILE = {}
+    with open(LANGUAGE_PATH, "r", encoding='utf-8') as language:
+        LANGUAGE_FILE = json.load(language)
+
+    LANGUAGE = save["settings"]["language"]
+    AUDIO_VOLUME = save["settings"]["volume"]
 
     def LoadGame(self):
         try:
@@ -17,37 +26,36 @@ class SavesManager:
     def ApeendMoneys(self, count):
         self.save["player"]["moneys"] += count
 
+    def ChangeLanguage(self):
+        self.LANGUAGE = self.save["settings"]["language"]
+
+    def ChangeVolume(self):
+        self.AUDIO_VOLUME = self.save["settings"]["volume"]
+
+
 SavesManager.LoadGame(SavesManager)
-
-
-AUDIO_VOLUME = 0
-LANGUAGE_PATH = "Languages\\languages.json"
-
-LANGUAGE_FILE = {}
-with open(LANGUAGE_PATH, "r", encoding='utf-8') as language:
-    LANGUAGE_FILE = json.load(language)
-
-LANGUAGE = "ru"
+SavesManager.ChangeLanguage(SavesManager)
+SavesManager.ChangeVolume(SavesManager)
 
 
 PLAYER_JUMP_FORCE_LEVELS = {
-    1: 5,
-    2: 6,
-    3: 7,
-    4: 8,
+    1: {"value": 5, "price": 1},
+    2: {"value": 6, "price": 10},
+    3: {"value": 7, "price": 20},
+    4: {"value": 8, "price": 30},
 }
 
 PLAYER_SPEED_LEVELS = {
-    1: 4,
-    2: 5,
-    3: 6,
-    4: 7,
+    1: {"value": 4, "price": 1},
+    2: {"value": 5, "price": 12},
+    3: {"value": 6, "price": 15},
+    4: {"value": 7, "price": 20},
 }
 
 
 PLAYER_SIZE = (32, 64)
-PLAYER_JUMP_FORCE = 7
-PLAYER_SPEED = 5
+PLAYER_JUMP_FORCE = PLAYER_JUMP_FORCE_LEVELS[SavesManager.save["player"]["jump_level"]]["value"]
+PLAYER_SPEED = PLAYER_SPEED_LEVELS[SavesManager.save["player"]["speed_level"]]["value"]
 
 
 GRAVITY = 0.35

@@ -2,6 +2,8 @@
   "en":{
     "Start": "Start",
     "Exit": "Exit",
+    "Ru": "Russian",
+    "En": "English",
     "LS": "LS",
     "Menu": "Menu",
     "Settings": "Settings",
@@ -9,6 +11,8 @@
   },
   "ru":{
     "Start": "Старт",
+    "Ru": "Русский",
+    "En": "Английский",
     "Exit": "Выход",
     "LS": "ВУ",
     "Menu": "Меню",
