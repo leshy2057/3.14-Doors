@@ -4,6 +4,7 @@ from Classes.Block import *
 from Classes.Camera import *
 from Classes.Settings import *
 from Classes.UI.Button import Button
+from  Classes.UI.Slider import Slider
 from Classes.Settings import *
 
 
@@ -15,11 +16,16 @@ class Menus:
     class Menu:
         def __init__(self, surface):
             self.surface = surface
-            self.buttonStart = Button(200, 40, 300, 100, text="Start", fontSize=60, color=(0, 230, 0), onColor=(0, 200, 0), pressColor=(0, 150, 0), func=self.ToLevelSelector)
-            self.buttonExit = Button(200, 220, 300, 100, text="Exit", fontSize=60, color=(230, 0, 0), onColor=(200, 0, 0), pressColor=(150, 0, 0), func=self.Exit)
+            self.buttonStart = Button(200, 20, 300, 70, name="Start", text="Start", fontSize=60, color=(0, 230, 0), onColor=(0, 200, 0), pressColor=(0, 150, 0), func=self.ToLevelSelector)
+            self.buttonExit = Button(200, 310, 300, 70, name="Exit", text="Exit", fontSize=60, color=(230, 0, 0), onColor=(200, 0, 0), pressColor=(150, 0, 0), func=self.Exit)
+            self.buttonSettings = Button(200, 110, 300, 70, name="Settings", text="Settings", fontSize=60, color=(0, 230, 230), onColor=(0, 200, 200), pressColor=(0, 150, 150), func=self.ToLevelSettings)
 
         def ToLevelSelector(self):
             Menus.currentStage = "Level Selector"
+            time.sleep(PAUSE_TO_LOAD)
+
+        def ToLevelSettings(self):
+            Menus.currentStage = "Settings"
             time.sleep(PAUSE_TO_LOAD)
 
         def Exit(self):
@@ -32,7 +38,23 @@ class Menus:
 
             self.surface.fill((255, 255, 255))
             self.buttonStart.Update(self.surface)
+            self.buttonSettings.Update(self.surface)
             self.buttonExit.Update(self.surface)
+            windows.blit(self.surface, (0, 0))
+
+
+    class Settings:
+        def __init__(self, surface):
+            self.surface = surface
+            self.sliderVolume = Slider()
+
+        def Update(self, windows):
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    sys.exit()
+
+            self.surface.fill((255, 255, 255))
+            self.sliderVolume.Update(self.surface)
             windows.blit(self.surface, (0, 0))
 
 
@@ -41,7 +63,7 @@ class Menus:
         def __init__(self, surface):
             self.surface = surface
 
-            self.buttonMenu = Button(x=650, y=0, w=50, h=50, text="Menu", color=(230, 0, 0), onColor=(200, 0, 0), pressColor=(150, 0, 0), fontSize=25, func=self.ToMenu)
+            self.buttonMenu = Button(x=650, y=0, w=50, h=50, name="Menu", text="Menu", color=(230, 0, 0), onColor=(200, 0, 0), pressColor=(150, 0, 0), fontSize=25, func=self.ToMenu)
             self.levelButtons = [
                 Button(x=0, y=0, w=100, h=100, text="1", color=(230, 230, 230), onColor=(200, 200, 200), pressColor=(150, 150, 150), func=lambda: self.ToGame("level_1")),
                 Button(x=100, y=0, w=100, h=100, text="2", color=(230, 230, 230), onColor=(200, 200, 200), pressColor=(150, 150, 150), func=lambda: self.ToGame("level_2")),
@@ -89,7 +111,7 @@ class Menus:
 
             self.camera = None
 
-            self.buttonMenu = Button(x=650, y=0, w=50, h=50, text="LS", color=(230, 0, 0), onColor=(200, 0, 0), pressColor=(150, 0, 0), fontSize=25, func=self.ToLevelSelector)
+            self.buttonMenu = Button(x=650, y=0, w=50, h=50, name="LS", text="LS", color=(230, 0, 0), onColor=(200, 0, 0), pressColor=(150, 0, 0), fontSize=25, func=self.ToLevelSelector)
 
             self.GenerateLevel()
 

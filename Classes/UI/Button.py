@@ -1,9 +1,9 @@
 import pygame
-
+from Classes.Settings import *
 
 
 class Button(object):
-    def __init__(self, x=0, y=0, w=100, h=100, text="Text", fontSize=20, color=(255, 0, 0), onColor=(200, 0, 0), pressColor=(150, 0, 0), func=None):
+    def __init__(self, x=0, y=0, w=100, h=100, name=None, text="Text", fontSize=20, color=(255, 0, 0), onColor=(200, 0, 0), pressColor=(150, 0, 0), func=None):
         self.normalColor = color
         self.onColor = onColor
         self.pressColor = pressColor
@@ -12,9 +12,13 @@ class Button(object):
         self.y = y
         self.w = w
         self.h = h
+        self.name = name
 
         self.font = pygame.font.Font(None, fontSize)
+
         self.text = text
+        if (self.name and LANGUAGE in LANGUAGE_FILE):
+            self.text = LANGUAGE_FILE[LANGUAGE][name]
         self.event = func
 
     def Update(self, screen):

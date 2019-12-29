@@ -1,0 +1,18 @@
+{
+  "en":{
+    "Start": "Start",
+    "Exit": "Exit",
+    "LS": "LS",
+    "Menu": "Menu",
+    "Settings": "Settings",
+    "Upgrade": "Upgrade"
+  },
+  "ru":{
+    "Start": "Старт",
+    "Exit": "Выход",
+    "LS": "ВУ",
+    "Menu": "Меню",
+    "Settings": "Настройки",
+    "Upgrade": "Улучшения"
+  }
+}

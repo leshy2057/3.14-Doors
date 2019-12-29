@@ -20,6 +20,16 @@ class SavesManager:
 SavesManager.LoadGame(SavesManager)
 
 
+AUDIO_VOLUME = 0
+LANGUAGE_PATH = "Languages\\languages.json"
+
+LANGUAGE_FILE = {}
+with open(LANGUAGE_PATH, "r", encoding='utf-8') as language:
+    LANGUAGE_FILE = json.load(language)
+
+LANGUAGE = "ru"
+
+
 PLAYER_JUMP_FORCE_LEVELS = {
     1: 5,
     2: 6,

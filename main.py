@@ -12,6 +12,7 @@ surface = pygame.Surface((WIN_WIDTH, WIN_HEIGHT))
 
 MENU = Menus.Menu(surface)
 LEVEL_SELECTOR = Menus.LevelSelector(surface)
+SETTINGS = Menus.Settings(surface)
 GAME = None
 runGame = True
 
@@ -25,6 +26,8 @@ while runGame:
         LEVEL_SELECTOR.Update(windows)
         if (GAME):
             GAME = None
+    elif (Menus.currentStage == "Settings"):
+        SETTINGS.Update(windows)
     elif (Menus.currentStage == "Game"):
         if (not GAME):
             GAME = Menus.Game(windows)
