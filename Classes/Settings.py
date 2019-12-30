@@ -1,5 +1,4 @@
 import json
-import pygame
 
 
 class SavesManager:
@@ -32,14 +31,6 @@ class SavesManager:
 
     def ChangeVolume(self):
         self.AUDIO_VOLUME = self.save["settings"]["volume"]
-
-
-class Background(pygame.sprite.Sprite):
-    def __init__(self, image_file, location):
-        pygame.sprite.Sprite.__init__(self) 
-        self.image = pygame.image.load(image_file)
-        self.rect = self.image.get_rect()
-        self.rect.left, self.rect.top = location
 
 
 SavesManager.LoadGame(SavesManager)
@@ -79,7 +70,7 @@ WIN_WIDTH = 700  # Ширина создаваемого окна
 WIN_HEIGHT = 400  # Высота
 
 
-PAUSE_TO_LOAD = 0.1
+PAUSE_TO_LOAD = 0.2
 
 
 ANIMATION_DELAY = 0.1 # скорость смены кадров
@@ -93,3 +84,28 @@ ANIMATION_JUMP_LEFT = ['Images\\Animations\\Player\\jump_l.png']
 ANIMATION_JUMP_RIGHT = ['Images\\Animations\\Player\\jump_r.png']
 ANIMATION_JUMP = ['Images\\Animations\\Player\\jump_r.png']
 ANIMATION_STAY = ['Images\\Animations\\Player\\playerTest.png']
+
+
+LEVEL_GENERATOR_SPRITES = {
+    "1": "Images\\Blocks\\1.png",
+    "2": "Images\\Blocks\\2.png",
+    "3": "Images\\Blocks\\3.png",
+    "4": "Images\\Blocks\\4.png",
+    "5": "Images\\Blocks\\5.png",
+    "6": "Images\\Blocks\\6.png",
+    "7": "Images\\Blocks\\7.png",
+    "8": "Images\\Blocks\\8.png",
+    "9": "Images\\Blocks\\9.png",
+    "!": "Images\\Blocks\\!.png",
+    "@": "Images\\Blocks\\@.png",
+    "#": "Images\\Blocks\\#.png",
+    "$": "Images\\Blocks\\$.png",
+    "Door_Close": "Images\\Blocks\\Door_Close.png",
+    "Key": "Images\\Blocks\\Key.png",
+    "Coin": "Images\\Blocks\\Coin.png",
+}
+
+UI_SPRITES = {
+    "BackgroundWinter": "Images\\UI\\BackgroundWinter.png",
+    "D1_Button": "Images\\UI\\D1_Button.png",
+}

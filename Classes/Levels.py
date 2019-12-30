@@ -5,6 +5,7 @@ from Classes.Camera import *
 from Classes.Settings import *
 from Classes.UI.Button import Button
 from  Classes.UI.Slider import Slider
+from Classes.UI.Background import Background
 from Classes.Settings import *
 
 
@@ -15,7 +16,9 @@ class Menus:
     class Menu:
         def __init__(self, surface):
             self.surface = surface
-            self.buttonStart = Button(200, 20, 300, 70, name="Start", text="Start", fontSize=60, color=(0, 230, 0), onColor=(0, 200, 0), pressColor=(0, 150, 0), func=self.ToLevelSelector)
+
+            self.BackGround = Background()
+            self.buttonStart = Button(200, 20, 300, 70,spriteName="D1_Button",  name="Start", text="Start", fontSize=60, color=(230, 230, 230), onColor=(200, 200, 200), pressColor=(150, 150, 150), func=self.ToLevelSelector)
             self.buttonExit = Button(200, 310, 300, 70, name="Exit", text="Exit", fontSize=60, color=(230, 0, 0), onColor=(200, 0, 0), pressColor=(150, 0, 0), func=self.Exit)
             self.buttonSettings = Button(200, 110, 300, 70, name="Settings", text="Settings", fontSize=60, color=(0, 230, 230), onColor=(0, 200, 200), pressColor=(0, 150, 150), func=self.ToLevelSettings)
 
@@ -37,7 +40,8 @@ class Menus:
                     SavesManager.SaveGame(SavesManager)
                     sys.exit()
 
-            self.surface.fill((255, 255, 255))
+            # self.surface.fill((255, 255, 255))
+            self.surface.blit(self.BackGround.image, self.BackGround.rect)
             self.buttonStart.Update(self.surface)
             self.buttonSettings.Update(self.surface)
             self.buttonExit.Update(self.surface)
@@ -47,6 +51,9 @@ class Menus:
     class Settings:
         def __init__(self, surface):
             self.surface = surface
+
+            self.BackGround = Background()
+
             self.sliderVolume = Slider(text="Volume", x=150, y=20, w=400, h=100, out_x=20)
             self.buttonMenu = Button(x=150, y=280, w=400, h=100, name="Menu", text="Menu", color=(0, 230, 230), onColor=(0, 200, 200), pressColor=(0, 150, 150), fontSize=25, func=self.ToMenu)
 
@@ -74,7 +81,8 @@ class Menus:
                     SavesManager.SaveGame(SavesManager)
                     sys.exit()
 
-            self.surface.fill((255, 255, 255))
+            # self.surface.fill((255, 255, 255))
+            self.surface.blit(self.BackGround.image, self.BackGround.rect)
             self.sliderVolume.Update(self.surface)
             self.ChangeVolume(self.sliderVolume.value)
             self.buttonMenu.Update(self.surface)
@@ -89,6 +97,8 @@ class Menus:
     class LevelSelector:
         def __init__(self, surface):
             self.surface = surface
+
+            self.BackGround = Background()
 
             self.buttonMenu = Button(x=650, y=0, w=50, h=50, name="Menu", text="Menu", color=(230, 0, 0), onColor=(200, 0, 0), pressColor=(150, 0, 0), fontSize=25, func=self.ToMenu)
             self.levelButtons = [
@@ -113,7 +123,8 @@ class Menus:
                     SavesManager.SaveGame(SavesManager)
                     sys.exit()
 
-            self.surface.fill((255, 255, 255))
+            # self.surface.fill((255, 255, 255))
+            self.surface.blit(self.BackGround.image, self.BackGround.rect)
 
             for i in self.levelButtons:
                 i.Update(self.surface)
@@ -126,6 +137,9 @@ class Menus:
     class Game:
         def __init__(self, surface):
             self.surface = surface
+
+            self.BackGround = Background()
+
             self.level_name = Menus.currentLevel
 
             self.on_level_collect = 0
@@ -165,8 +179,8 @@ class Menus:
             level_for = ""
             for i in self.level: level_for += i
             for symbol in level_for:
-                if (symbol == "-"):
-                    block = Block(x, y)
+                if (symbol in LEVEL_GENERATOR_SPRITES.keys()):
+                    block = Block(x, y, symbol)
                     self.blocks.add_internal(block)
                     self.wallList.add_internal(block)
                     x += step
@@ -206,7 +220,8 @@ class Menus:
 
             self.player.Move(pygame.key.get_pressed())
             self.player.update()
-            self.surface.fill((255, 255, 255))
+            # self.surface.fill((255, 255, 255))
+            self.surface.blit(self.BackGround.image, self.BackGround.rect)
 
             self.camera.update(self.player)
 

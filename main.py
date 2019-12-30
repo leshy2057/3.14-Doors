@@ -10,8 +10,6 @@ pygame.display.set_caption("Test")
 
 surface = pygame.Surface((WIN_WIDTH, WIN_HEIGHT))
 
-BackGround = Background('\\Images\\Blocks\\background.jpg', [0,0])
-
 MENU = Menus.Menu(surface)
 LEVEL_SELECTOR = Menus.LevelSelector(surface)
 SETTINGS = Menus.Settings(surface)
@@ -21,7 +19,7 @@ runGame = True
 pygame.key.set_repeat(1, 10)
 while runGame:
     windows.fill([255, 255, 255])
-    windows.blit(BackGround.image, BackGround.rect)
+
     if (Menus.currentStage == "Menu"):
         MENU.Update(windows)
         if (GAME):
