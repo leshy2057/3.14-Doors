@@ -109,3 +109,9 @@ UI_SPRITES = {
     "BackgroundWinter": "Images\\UI\\BackgroundWinter.png",
     "D1_Button": "Images\\UI\\D1_Button.png",
 }
+
+
+IMAGES = {
+    "U_Speed": "Images\\Images\\U_Speed.png",
+    "U_Jump": "Images\\Images\\U_Jump.png",
+}

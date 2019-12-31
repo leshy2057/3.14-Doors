@@ -15,6 +15,7 @@ class Button(object):
         self.name = name
 
         self.font = pygame.font.Font(None, fontSize)
+        self.lastPointer = 0
 
         self.image = None
         if (spriteName):
@@ -45,7 +46,7 @@ class Button(object):
         if (self.image):
             if (not self.OnButton()):
                 screen.blit(self.normalImage, (self.x, self.y))
-            elif (self.OnButton() and bool(pygame.mouse.get_pressed()[0])):
+            elif (self.OnButton() and bool(pygame.mouse.get_pressed()[0] == 0 and self.lastPointer == 1)):
                 screen.blit(self.pressImage, (self.x, self.y))
                 if (self.event): self.event()
             else:
@@ -53,19 +54,20 @@ class Button(object):
         else:
             if (not self.OnButton()):
                 bg = self.normalColor
-            elif (self.OnButton() and bool(pygame.mouse.get_pressed()[0])):
+            elif (self.OnButton() and bool(pygame.mouse.get_pressed()[0] == 0 and self.lastPointer == 1)):
                 bg = self.pressColor
                 if (self.event): self.event()
             else:
                 bg = self.onColor
 
-        print(f"Image: {self.image};")
         surf = self.font.render(self.text, True, (0, 0, 0), bg if not self.image else self.image)
         rect = (self.x, self.y, self.w, self.h)
         xo = self.x + (self.w - surf.get_width()) // 2
         yo = self.y + (self.h - surf.get_height()) // 2
         if (not self.image): screen.fill(bg, rect)
         screen.blit(surf, (xo, yo))
+
+        self.lastPointer = pygame.mouse.get_pressed()[0]
 
     def OnButton(self):
         pos = pygame.mouse.get_pos()

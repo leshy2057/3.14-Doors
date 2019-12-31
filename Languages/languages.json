@@ -7,7 +7,9 @@
     "LS": "LS",
     "Menu": "Menu",
     "Settings": "Settings",
-    "Upgrade": "Upgrade"
+    "Upgrade": "Upgrade",
+    "Speed": "Speed",
+    "Jump": "Jump"
   },
   "ru":{
     "Start": "Старт",
@@ -17,6 +19,8 @@
     "LS": "ВУ",
     "Menu": "Меню",
     "Settings": "Настройки",
-    "Upgrade": "Улучшения"
+    "Upgrade": "Улучшения",
+    "Speed": "Скорость",
+    "Jump": "Прыжок"
   }
 }

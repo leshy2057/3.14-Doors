@@ -6,6 +6,8 @@ from Classes.Settings import *
 from Classes.UI.Button import Button
 from  Classes.UI.Slider import Slider
 from Classes.UI.Background import Background
+from Classes.UI.Image import Image
+from Classes.UI.Panel import Panel
 from Classes.Settings import *
 
 
@@ -19,8 +21,9 @@ class Menus:
 
             self.BackGround = Background()
             self.buttonStart = Button(200, 20, 300, 70,spriteName="D1_Button",  name="Start", text="Start", fontSize=60, color=(230, 230, 230), onColor=(200, 200, 200), pressColor=(150, 150, 150), func=self.ToLevelSelector)
-            self.buttonExit = Button(200, 310, 300, 70, name="Exit", text="Exit", fontSize=60, color=(230, 0, 0), onColor=(200, 0, 0), pressColor=(150, 0, 0), func=self.Exit)
             self.buttonSettings = Button(200, 110, 300, 70, name="Settings", text="Settings", fontSize=60, color=(0, 230, 230), onColor=(0, 200, 200), pressColor=(0, 150, 150), func=self.ToLevelSettings)
+            self.buttonUpgrade = Button(200, 220, 300, 70, name="Upgrade", text="Upgrade", fontSize=60, color=(0, 230, 230), onColor=(0, 200, 200), pressColor=(0, 150, 150), func=self.ToLevelUpgrade)
+            self.buttonExit = Button(200, 310, 300, 70, name="Exit", text="Exit", fontSize=60, color=(230, 0, 0), onColor=(200, 0, 0), pressColor=(150, 0, 0), func=self.Exit)
 
         def ToLevelSelector(self):
             Menus.currentStage = "Level Selector"
@@ -28,6 +31,10 @@ class Menus:
 
         def ToLevelSettings(self):
             Menus.currentStage = "Settings"
+            time.sleep(PAUSE_TO_LOAD)
+
+        def ToLevelUpgrade(self):
+            Menus.currentStage = "Upgrade"
             time.sleep(PAUSE_TO_LOAD)
 
         def Exit(self):
@@ -44,6 +51,7 @@ class Menus:
             self.surface.blit(self.BackGround.image, self.BackGround.rect)
             self.buttonStart.Update(self.surface)
             self.buttonSettings.Update(self.surface)
+            self.buttonUpgrade.Update(self.surface)
             self.buttonExit.Update(self.surface)
             windows.blit(self.surface, (0, 0))
 
@@ -92,6 +100,68 @@ class Menus:
 
             windows.blit(self.surface, (0, 0))
 
+
+    class Upgrade:
+        def __init__(self, surface):
+            self.surface = surface
+
+            self.BackGround = Background()
+
+            self.u_speedPanel = Panel(x=20, y=0, w=230, h=310, color=(220, 220, 220, 150))
+            self.u_speedImage = Image(x=50, y=20, w=160, h=220)
+            self.u_speedButton = Button(x=20, y=140, w=230, h=100, name="Speed", text="Speed", color=(0, 230, 230), onColor=(0, 200, 200), pressColor=(0, 150, 150), fontSize=25, func=lambda: self.UpgradeStat("speed_level"))
+
+            self.u_jumpPanel = Panel(x=450, y=0, w=230, h=310, color=(220, 220, 220, 150))
+            self.u_jumpImage = Image(x=490, y=20, w=160, h=220, name="U_Jump")
+            self.u_jumpButton =  Button(x=370, y=140, w=180, h=100, name="Jump", text="Jump", color=(0, 230, 230), onColor=(0, 200, 200), pressColor=(0, 150, 150), fontSize=25, func=lambda: self.UpgradeStat("jump_level"))
+
+
+            self.buttonMenu = Button(x=150, y=330, w=400, h=50, name="Menu", text="Menu", color=(0, 230, 230), onColor=(0, 200, 200), pressColor=(0, 150, 150), fontSize=25, func=self.ToMenu)
+
+
+        def ToMenu(self):
+            Menus.currentStage = "Menu"
+            time.sleep(PAUSE_TO_LOAD)
+
+        def UpgradeStat(self, name):
+            print(SavesManager.save["player"][name] + 1,  PLAYER_SPEED_LEVELS.keys())
+            if (SavesManager.save["player"][name] + 1 in PLAYER_SPEED_LEVELS.keys()):
+                if (SavesManager.save["player"]["moneys"] >= PLAYER_SPEED_LEVELS[SavesManager.save["player"][name] + 1]["price"]):
+                    SavesManager.save["player"]["moneys"] -= PLAYER_SPEED_LEVELS[SavesManager.save["player"][name] + 1]["price"]
+                    SavesManager.save["player"][name] += 1
+                else:
+                    print("You don't have moneys!")
+            elif (SavesManager.save["player"][name] + 1 in PLAYER_JUMP_FORCE_LEVELS.keys()):
+                if (SavesManager.save["player"]["moneys"] >= PLAYER_JUMP_FORCE_LEVELS[SavesManager.save["player"][name] + 1]["price"]):
+                    SavesManager.save["player"]["moneys"] -= PLAYER_JUMP_FORCE_LEVELS[SavesManager.save["player"][name] + 1]["price"]
+                    SavesManager.save["player"][name] += 1
+                else:
+                    print("You don't have moneys!")
+
+
+
+        def Update(self, windows):
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    SavesManager.SaveGame(SavesManager)
+                    sys.exit()
+
+            # self.surface.fill((255, 255, 255))
+            self.surface.blit(self.BackGround.image, self.BackGround.rect)
+
+            self.surface.blit(self.u_speedPanel.image, self.u_speedPanel.rect)
+            self.surface.blit(self.u_speedImage.image, self.u_speedImage.rect)
+            self.u_speedButton.Update(self.surface)
+
+            self.surface.blit(self.u_jumpPanel.image, self.u_jumpPanel.rect)
+            self.surface.blit(self.u_jumpImage.image, self.u_jumpImage.rect)
+
+            self.buttonMenu.Update(self.surface)
+
+            #for button in self.languages_button:
+                #button.Update(self.surface)
+
+            windows.blit(self.surface, (0, 0))
 
 
     class LevelSelector:
