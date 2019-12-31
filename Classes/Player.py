@@ -21,10 +21,10 @@ class Player(pygame.sprite.Sprite):
         self.getKey = False
         self.inDoor = False
 
-        self.speed = PLAYER_SPEED
+        self.speed = SavesManager.PLAYER_SPEED
         self._movingX = self.speed
 
-        self.JUMP_POWER = PLAYER_JUMP_FORCE
+        self.JUMP_POWER = SavesManager.PLAYER_JUMP_FORCE
         self.GRAVITY = GRAVITY  # Сила, которая будет тянуть нас вниз
 
         self.rect = self.image.get_rect()
