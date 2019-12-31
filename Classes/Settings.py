@@ -1,5 +1,19 @@
 import json
 
+PLAYER_JUMP_FORCE_LEVELS = {
+    1: {"value": 5, "price": 1},
+    2: {"value": 6, "price": 10},
+    3: {"value": 7, "price": 20},
+    4: {"value": 8, "price": 30},
+}
+
+PLAYER_SPEED_LEVELS = {
+    1: {"value": 4, "price": 1},
+    2: {"value": 5, "price": 12},
+    3: {"value": 6, "price": 15},
+    4: {"value": 7, "price": 20},
+}
+
 
 class SavesManager:
     save = {"player": {"jump_level": 1, "speed_level": 1, "moneys": 0}, "levels": {"level_1": {"open": True}, "level_2": {"open": False}, "level_3": {"open": False}}, "settings": {"language": "en", "volume": 1}}
@@ -12,6 +26,9 @@ class SavesManager:
 
     LANGUAGE = save["settings"]["language"]
     AUDIO_VOLUME = save["settings"]["volume"]
+
+    PLAYER_JUMP_FORCE = PLAYER_JUMP_FORCE_LEVELS[save["player"]["jump_level"]]["value"]
+    PLAYER_SPEED = PLAYER_SPEED_LEVELS[save["player"]["speed_level"]]["value"]
 
     def LoadGame(self):
         try:
@@ -32,30 +49,17 @@ class SavesManager:
     def ChangeVolume(self):
         self.AUDIO_VOLUME = self.save["settings"]["volume"]
 
+    def UpgradeStats(self):
+        self.PLAYER_JUMP_FORCE = PLAYER_JUMP_FORCE_LEVELS[self.save["player"]["jump_level"]]["value"]
+        self.PLAYER_SPEED = PLAYER_SPEED_LEVELS[self.save["player"]["speed_level"]]["value"]
+
 
 SavesManager.LoadGame(SavesManager)
 SavesManager.ChangeLanguage(SavesManager)
 SavesManager.ChangeVolume(SavesManager)
 
 
-PLAYER_JUMP_FORCE_LEVELS = {
-    1: {"value": 5, "price": 1},
-    2: {"value": 6, "price": 10},
-    3: {"value": 7, "price": 20},
-    4: {"value": 8, "price": 30},
-}
-
-PLAYER_SPEED_LEVELS = {
-    1: {"value": 4, "price": 1},
-    2: {"value": 5, "price": 12},
-    3: {"value": 6, "price": 15},
-    4: {"value": 7, "price": 20},
-}
-
-
 PLAYER_SIZE = (32, 64)
-PLAYER_JUMP_FORCE = PLAYER_JUMP_FORCE_LEVELS[SavesManager.save["player"]["jump_level"]]["value"]
-PLAYER_SPEED = PLAYER_SPEED_LEVELS[SavesManager.save["player"]["speed_level"]]["value"]
 
 
 GRAVITY = 0.35
@@ -70,7 +74,7 @@ WIN_WIDTH = 700  # Ширина создаваемого окна
 WIN_HEIGHT = 400  # Высота
 
 
-PAUSE_TO_LOAD = 0.2
+PAUSE_TO_LOAD = 0.01
 
 
 ANIMATION_DELAY = 0.1 # скорость смены кадров

@@ -109,11 +109,11 @@ class Menus:
 
             self.u_speedPanel = Panel(x=20, y=0, w=230, h=310, color=(220, 220, 220, 150))
             self.u_speedImage = Image(x=50, y=20, w=160, h=220)
-            self.u_speedButton = Button(x=20, y=140, w=230, h=100, name="Speed", text="Speed", color=(0, 230, 230), onColor=(0, 200, 200), pressColor=(0, 150, 150), fontSize=25, func=lambda: self.UpgradeStat("speed_level"))
+            self.u_speedButton = Button(x=20, y=240, w=230, h=70, name="Speed", text="Speed", color=(0, 230, 230), onColor=(0, 200, 200), pressColor=(0, 150, 150), fontSize=25, func=lambda: self.UpgradeStat("speed_level"))
 
             self.u_jumpPanel = Panel(x=450, y=0, w=230, h=310, color=(220, 220, 220, 150))
             self.u_jumpImage = Image(x=490, y=20, w=160, h=220, name="U_Jump")
-            self.u_jumpButton =  Button(x=370, y=140, w=180, h=100, name="Jump", text="Jump", color=(0, 230, 230), onColor=(0, 200, 200), pressColor=(0, 150, 150), fontSize=25, func=lambda: self.UpgradeStat("jump_level"))
+            self.u_jumpButton =  Button(x=450, y=240, w=230, h=70, name="Jump", text="Jump", color=(0, 230, 230), onColor=(0, 200, 200), pressColor=(0, 150, 150), fontSize=25, func=lambda: self.UpgradeStat("jump_level"))
 
 
             self.buttonMenu = Button(x=150, y=330, w=400, h=50, name="Menu", text="Menu", color=(0, 230, 230), onColor=(0, 200, 200), pressColor=(0, 150, 150), fontSize=25, func=self.ToMenu)
@@ -124,19 +124,22 @@ class Menus:
             time.sleep(PAUSE_TO_LOAD)
 
         def UpgradeStat(self, name):
-            print(SavesManager.save["player"][name] + 1,  PLAYER_SPEED_LEVELS.keys())
-            if (SavesManager.save["player"][name] + 1 in PLAYER_SPEED_LEVELS.keys()):
-                if (SavesManager.save["player"]["moneys"] >= PLAYER_SPEED_LEVELS[SavesManager.save["player"][name] + 1]["price"]):
-                    SavesManager.save["player"]["moneys"] -= PLAYER_SPEED_LEVELS[SavesManager.save["player"][name] + 1]["price"]
-                    SavesManager.save["player"][name] += 1
-                else:
-                    print("You don't have moneys!")
-            elif (SavesManager.save["player"][name] + 1 in PLAYER_JUMP_FORCE_LEVELS.keys()):
-                if (SavesManager.save["player"]["moneys"] >= PLAYER_JUMP_FORCE_LEVELS[SavesManager.save["player"][name] + 1]["price"]):
-                    SavesManager.save["player"]["moneys"] -= PLAYER_JUMP_FORCE_LEVELS[SavesManager.save["player"][name] + 1]["price"]
-                    SavesManager.save["player"][name] += 1
-                else:
-                    print("You don't have moneys!")
+            # print(SavesManager.save["player"][name] + 1,  PLAYER_SPEED_LEVELS.keys())
+            if (name == "jump_level"):
+                if (SavesManager.save["player"][name] + 1 in PLAYER_SPEED_LEVELS.keys()):
+                    if (SavesManager.save["player"]["moneys"] >= PLAYER_SPEED_LEVELS[SavesManager.save["player"][name] + 1]["price"]):
+                        SavesManager.save["player"]["moneys"] -= PLAYER_SPEED_LEVELS[SavesManager.save["player"][name] + 1]["price"]
+                        SavesManager.save["player"][name] += 1
+                    else:
+                        print("You don't have moneys!")
+            elif (name == "speed_level"):
+                if (SavesManager.save["player"][name] + 1 in PLAYER_JUMP_FORCE_LEVELS.keys()):
+                    if (SavesManager.save["player"]["moneys"] >= PLAYER_JUMP_FORCE_LEVELS[SavesManager.save["player"][name] + 1]["price"]):
+                        SavesManager.save["player"]["moneys"] -= PLAYER_JUMP_FORCE_LEVELS[SavesManager.save["player"][name] + 1]["price"]
+                        SavesManager.save["player"][name] += 1
+                    else:
+                        print("You don't have moneys!")
+            SavesManager.UpgradeStats(SavesManager)
 
 
 
@@ -155,6 +158,7 @@ class Menus:
 
             self.surface.blit(self.u_jumpPanel.image, self.u_jumpPanel.rect)
             self.surface.blit(self.u_jumpImage.image, self.u_jumpImage.rect)
+            self.u_jumpButton.Update(self.surface)
 
             self.buttonMenu.Update(self.surface)
 
