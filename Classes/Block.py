@@ -8,7 +8,7 @@ class Block(pygame.sprite.Sprite):
         self.image = pygame.image.load(LEVEL_GENERATOR_SPRITES[name])
         self.image = pygame.transform.scale(self.image, BLOCK_SIZE)
 
-        self.tag = 'Block'
+        self.tag = "Block"
         self.rect = self.image.get_rect()
         self.rect.y = y
         self.rect.x = x
@@ -36,4 +36,20 @@ class Key(Block):
         super().__init__(x, y, name)
         self.image = pygame.transform.scale(self.image, BLOCK_SIZE)
         self.tag = "Key"
+        self.use = False
+
+
+class Water(Block):
+    def __init__(self, x, y, name="Water"):
+        super().__init__(x, y, name)
+        self.image = pygame.transform.scale(self.image, BLOCK_SIZE)
+        self.tag = "Water"
+        self.use = False
+
+
+class WaterKill(Block):
+    def __init__(self, x, y, name="WaterKill"):
+        super().__init__(x, y, name)
+        self.image = pygame.transform.scale(self.image, BLOCK_SIZE)
+        self.tag = "WaterKill"
         self.use = False

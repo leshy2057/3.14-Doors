@@ -36,6 +36,8 @@ while runGame:
     elif (Menus.currentStage == "Game"):
         if (not GAME):
             GAME = Menus.Game(windows)
+        elif (GAME.player.on_water):
+            GAME = Menus.Game(windows)
         GAME.Update(windows)
 
     clock.tick(30)

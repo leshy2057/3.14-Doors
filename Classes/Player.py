@@ -12,7 +12,7 @@ class Player(pygame.sprite.Sprite):
 
         self.on_level_collect = on_level_collect
 
-        self.image = pygame.image.load("Images\\Animations\\Player\\playerTest.png")
+        self.image = pygame.image.load("Images\\Animations\\Player\\stay_r.png")
         self.image = pygame.transform.scale(self.image, PLAYER_SIZE)
 
         self.walls = walls
@@ -30,15 +30,18 @@ class Player(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.topleft = self.position[0], self.position[1]
 
+        self.xvel = 0
         self.yvel = 0  # скорость вертикального перемещения
         self.onGround = False  # На земле ли я?
         self.stage = 'n'
 
-        self.frames = ANIMATION_STAY
+        self.frames = ANIMATION_STAY_RIGHT
         self.cur_frame = 0
         self.image = self.frames[self.cur_frame]
 
         self.use = False
+
+        self.on_water = False
 
         self.update()
 
@@ -70,8 +73,11 @@ class Player(pygame.sprite.Sprite):
                 self.stage = 'j'
 
         if not (keys[pygame.K_d] or keys[pygame.K_a]):  # стоим, когда нет указаний идти
+            if (self.xvel > 0):
+                self.stage = "nr"
+            elif (self.xvel < 0):
+                self.stage = "nl"
             self.xvel = 0
-            self.stage = 'n'
 
         if not self.onGround:
             self.yvel += self.GRAVITY
@@ -93,13 +99,16 @@ class Player(pygame.sprite.Sprite):
             self.frames = ANIMATION_JUMP_LEFT
         elif self.stage == 'jl':
             self.frames = ANIMATION_JUMP_LEFT
-        elif self.stage == 'n':
-            self.frames = ANIMATION_STAY
+        elif self.stage == 'nl':
+            self.frames = ANIMATION_STAY_LEFT
+        elif self.stage == "nr":
+            self.frames = ANIMATION_STAY_RIGHT
 
 
     def Collide(self, xvel, yvel, platforms):
         for prefab in platforms:
             if pygame.sprite.collide_rect(self, prefab):  # если есть пересечение платформы с игроком
+                print(prefab.tag)
                 if (prefab.tag == "Block"):
                     if xvel > 0:  # если движется вправо
                         self.rect.right = prefab.rect.left  # то не движется вправо
@@ -125,6 +134,8 @@ class Player(pygame.sprite.Sprite):
                     prefab.use = True
                 elif (prefab.tag == "Door" and not prefab.use and self.getKey):
                     self.inDoor = True
+                elif (prefab.tag == "WaterKill" and not prefab.use):
+                    self.on_water = True
 
 
     def Flip(self):

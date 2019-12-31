@@ -87,7 +87,8 @@ ANIMATION_LEFT = [('Images\\Animations\\Player\\run_l1.png'),
 ANIMATION_JUMP_LEFT = ['Images\\Animations\\Player\\jump_l.png']
 ANIMATION_JUMP_RIGHT = ['Images\\Animations\\Player\\jump_r.png']
 ANIMATION_JUMP = ['Images\\Animations\\Player\\jump_r.png']
-ANIMATION_STAY = ['Images\\Animations\\Player\\playerTest.png']
+ANIMATION_STAY_RIGHT = ['Images\\Animations\\Player\\stay_r.png']
+ANIMATION_STAY_LEFT = ['Images\\Animations\\Player\\stay_l.png']
 
 
 LEVEL_GENERATOR_SPRITES = {
@@ -104,6 +105,8 @@ LEVEL_GENERATOR_SPRITES = {
     "@": "Images\\Blocks\\@.png",
     "#": "Images\\Blocks\\#.png",
     "$": "Images\\Blocks\\$.png",
+    "Water": "Images\\Blocks\\W.png",
+    "WaterKill": "Images\\Blocks\\V.png",
     "Door_Close": "Images\\Blocks\\Door_Close.png",
     "Key": "Images\\Blocks\\Key.png",
     "Coin": "Images\\Blocks\\Coin.png",

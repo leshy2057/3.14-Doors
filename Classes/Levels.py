@@ -247,8 +247,6 @@ class Menus:
                     self.levels_list = data["levels_list"]
             except:
                 raise Exception("Level not found in json!")
-
-            
             x, y, step = 0, 0, 32
             level_for = ""
             for i in self.level: level_for += i
@@ -272,6 +270,16 @@ class Menus:
                     key = Key(x, y)
                     self.blocks.add_internal(key)
                     self.wallList.add_internal(key)
+                    x += step
+                elif (symbol == "W"):
+                    water = Water(x, y)
+                    self.blocks.add_internal(water)
+                    self.wallList.add_internal(water)
+                    x += step
+                elif (symbol == "V"):
+                    waterKill = WaterKill(x, y)
+                    self.blocks.add_internal(waterKill)
+                    self.wallList.add_internal(waterKill)
                     x += step
                 elif (symbol == "|"):
                     x = 0
