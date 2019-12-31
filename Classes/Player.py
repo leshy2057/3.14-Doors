@@ -12,8 +12,13 @@ class Player(pygame.sprite.Sprite):
 
         self.on_level_collect = on_level_collect
 
-        self.image = pygame.image.load("Images\\Animations\\Player\\stay_r.png")
+        self.image = pygame.image.load("Images\\Animations\\Player\\stay_r.png").convert_alpha()
         self.image = pygame.transform.scale(self.image, PLAYER_SIZE)
+
+        self.rect = self.image.get_rect()
+        self.rect.topleft = self.position[0], self.position[1]
+
+        self.mask = pygame.mask.from_surface(self.image)
 
         self.walls = walls
 
@@ -27,8 +32,6 @@ class Player(pygame.sprite.Sprite):
         self.JUMP_POWER = SavesManager.PLAYER_JUMP_FORCE
         self.GRAVITY = GRAVITY  # Сила, которая будет тянуть нас вниз
 
-        self.rect = self.image.get_rect()
-        self.rect.topleft = self.position[0], self.position[1]
         self.leftRight = "right"
 
         self.xvel = 0
@@ -138,7 +141,11 @@ class Player(pygame.sprite.Sprite):
                     prefab.use = True
                 elif (prefab.tag == "Door" and not prefab.use and self.getKey):
                     self.inDoor = True
-                elif ((prefab.tag == "WaterKill" or prefab.tag == "Spikes") and not prefab.use):
+                elif ((prefab.tag == "WaterKill") and not prefab.use):
+                    self.die = True
+
+            if (pygame.sprite.collide_mask(self, prefab)):
+                if (prefab.tag == "Spikes"):
                     self.die = True
 
 
@@ -156,5 +163,6 @@ class Player(pygame.sprite.Sprite):
     def update(self):
         self.cur_frame = (self.cur_frame + 1) % len(self.frames)
         self.name = self.frames[self.cur_frame]
-        self.image = pygame.image.load(self.name)
+        self.image = pygame.image.load(self.name).convert_alpha()
         self.image = pygame.transform.scale(self.image, PLAYER_SIZE)
+        self.mask = pygame.mask.from_surface(self.image)

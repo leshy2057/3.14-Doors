@@ -227,6 +227,11 @@ class Menus:
             self.prefabs = []
             self.reload = False
 
+            self.sound = pygame.mixer.Sound(SOUNDS_GAME["W1_Music"])
+            self.sound.set_volume(SavesManager.AUDIO_VOLUME)
+
+            self.sound.play(loops=10000)
+
             self.camera = None
 
             self.buttonMenu = Button(x=650, y=0, w=50, h=50, name="LS", text="LS", color=(230, 0, 0), onColor=(200, 0, 0), pressColor=(150, 0, 0), fontSize=25, func=self.ToLevelSelector)
@@ -234,6 +239,7 @@ class Menus:
             self.GenerateLevel()
 
         def ToLevelSelector(self):
+            self.sound.stop()
             Menus.currentStage = "Level Selector"
             Menus.currentLevel = ""
             time.sleep(PAUSE_TO_LOAD)
@@ -249,42 +255,47 @@ class Menus:
                     self.levels_list = data["levels_list"]
             except:
                 raise Exception("Level not found in json!")
+            typeWorld = self.level["type"]
+            self.level = self.level["map"]
+
+            self.BackGround = Background(typeWorld=typeWorld)
+
             x, y, step = 0, 0, 32
             level_for = ""
             for i in self.level: level_for += i
             for symbol in level_for:
-                if (symbol in LEVEL_GENERATOR_SPRITES.keys()):
-                    block = Block(x, y, symbol)
+                if (symbol in LEVEL_GENERATOR_SPRITES[typeWorld].keys()):
+                    block = Block(x, y, symbol, typeWorld=typeWorld)
                     self.blocks.add_internal(block)
                     self.wallList.add_internal(block)
                     x += step
                 elif (symbol == "C"):
-                    coin = Coin(x, y)
+                    coin = Coin(x, y, typeWorld=typeWorld)
                     self.blocks.add_internal(coin)
                     self.wallList.add_internal(coin)
                     x += step
                 elif (symbol == "D"):
-                    door = Door(x, y)
+                    door = Door(x, y, typeWorld=typeWorld)
                     self.blocks.add_internal(door)
                     self.wallList.add_internal(door)
                     x += step
                 elif (symbol == "K"):
-                    key = Key(x, y)
+                    key = Key(x, y, typeWorld=typeWorld)
                     self.blocks.add_internal(key)
                     self.wallList.add_internal(key)
                     x += step
                 elif (symbol == "W"):
-                    water = Water(x, y)
+                    water = Water(x, y, typeWorld=typeWorld)
                     self.blocks.add_internal(water)
                     self.wallList.add_internal(water)
                     x += step
                 elif (symbol == "V"):
-                    waterKill = WaterKill(x, y)
+                    waterKill = WaterKill(x, y, typeWorld=typeWorld)
                     self.blocks.add_internal(waterKill)
                     self.wallList.add_internal(waterKill)
                     x += step
                 elif (symbol == "S"):
-                    spikes = Spikes(x, y)
+                    spikes = Spikes(x, y, typeWorld=typeWorld)
                     self.blocks.add_internal(spikes)
                     self.wallList.add_internal(spikes)
                     x += step
@@ -312,9 +323,12 @@ class Menus:
 
                 if (event.type == pygame.KEYDOWN):
                     if (self.player.die and event.key == pygame.K_r):
+                        self.sound.stop()
                         self.reload = True
 
             if (not self.player.die):
+                self.sound.set_volume(SavesManager.AUDIO_VOLUME)
+
                 self.player.Move(pygame.key.get_pressed())
                 self.player.update()
                 # self.surface.fill((255, 255, 255))

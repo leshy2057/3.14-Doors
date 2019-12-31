@@ -1,9 +1,9 @@
-import pygame
+import pygame, os
 from Classes.Settings import *
 
 
 class Button(object):
-    def __init__(self, x=0, y=0, w=100, h=100, spriteName=None, name=None, text="Text", fontSize=20, color=(255, 0, 0), onColor=(200, 0, 0), pressColor=(150, 0, 0), func=None):
+    def __init__(self, x=0, y=0, w=100, h=100, musicSound="B_Click", spriteName=None, name=None, text="Text", fontSize=20, color=(255, 0, 0), onColor=(200, 0, 0), pressColor=(150, 0, 0), func=None):
         self.normalColor = color
         self.onColor = onColor
         self.pressColor = pressColor
@@ -16,6 +16,9 @@ class Button(object):
 
         self.font = pygame.font.Font(None, fontSize)
         self.lastPointer = 0
+
+        self.musicSound = musicSound
+        self.soundClick = pygame.mixer.Sound(SOUNDS_UI[self.musicSound])
 
         self.image = None
         if (spriteName):
@@ -48,7 +51,7 @@ class Button(object):
                 screen.blit(self.normalImage, (self.x, self.y))
             elif (self.OnButton() and bool(pygame.mouse.get_pressed()[0] == 0 and self.lastPointer == 1)):
                 screen.blit(self.pressImage, (self.x, self.y))
-                if (self.event): self.event()
+                if (self.event): self.event(); self.PlaySound()
             else:
                 screen.blit(self.onImage, (self.x, self.y))
         else:
@@ -56,9 +59,11 @@ class Button(object):
                 bg = self.normalColor
             elif (self.OnButton() and bool(pygame.mouse.get_pressed()[0] == 0 and self.lastPointer == 1)):
                 bg = self.pressColor
-                if (self.event): self.event()
+                if (self.event): self.event(); self.PlaySound()
             else:
                 bg = self.onColor
+
+        self.soundClick.set_volume(SavesManager.AUDIO_VOLUME)
 
         surf = self.font.render(self.text, True, (0, 0, 0), bg if not self.image else self.image)
         rect = (self.x, self.y, self.w, self.h)
@@ -72,3 +77,6 @@ class Button(object):
     def OnButton(self):
         pos = pygame.mouse.get_pos()
         return self.x <= pos[0] and self.x + self.w > pos[0] and self.y <= pos[1] and self.y + self.h > pos[1]
+
+    def PlaySound(self):
+        self.soundClick.play()
