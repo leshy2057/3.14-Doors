@@ -53,3 +53,11 @@ class WaterKill(Block):
         self.image = pygame.transform.scale(self.image, BLOCK_SIZE)
         self.tag = "WaterKill"
         self.use = False
+
+
+class Spikes(Block):
+    def __init__(self, x, y, name="Spikes"):
+        super().__init__(x, y, name)
+        self.image = pygame.transform.scale(self.image, BLOCK_SIZE)
+        self.tag = "Spikes"
+        self.use = False

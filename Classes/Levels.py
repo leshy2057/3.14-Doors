@@ -8,6 +8,7 @@ from  Classes.UI.Slider import Slider
 from Classes.UI.Background import Background
 from Classes.UI.Image import Image
 from Classes.UI.Panel import Panel
+from Classes.UI.Text import Text
 from Classes.Settings import *
 
 
@@ -213,7 +214,7 @@ class Menus:
             self.surface = surface
 
             self.BackGround = Background()
-
+            self.DieText = Text(text="DIE! Press R to restart!", w=WIN_WIDTH, h=WIN_HEIGHT, color=(255, 255, 255, 1), fontSize=90)
             self.level_name = Menus.currentLevel
 
             self.on_level_collect = 0
@@ -224,6 +225,7 @@ class Menus:
             self.blocks = pygame.sprite.Group()
             self.wallList = pygame.sprite.Group()
             self.prefabs = []
+            self.reload = False
 
             self.camera = None
 
@@ -281,6 +283,14 @@ class Menus:
                     self.blocks.add_internal(waterKill)
                     self.wallList.add_internal(waterKill)
                     x += step
+                elif (symbol == "S"):
+                    spikes = Spikes(x, y)
+                    self.blocks.add_internal(spikes)
+                    self.wallList.add_internal(spikes)
+                    x += step
+                elif (symbol == "P"):
+                    self.player.rect.topleft = (x, y)
+                    x += step
                 elif (symbol == "|"):
                     x = 0
                     y += step
@@ -300,16 +310,24 @@ class Menus:
                     SavesManager.SaveGame(SavesManager)
                     sys.exit()
 
-            self.player.Move(pygame.key.get_pressed())
-            self.player.update()
-            # self.surface.fill((255, 255, 255))
-            self.surface.blit(self.BackGround.image, self.BackGround.rect)
+                if (event.type == pygame.KEYDOWN):
+                    if (self.player.die and event.key == pygame.K_r):
+                        self.reload = True
 
-            self.camera.update(self.player)
+            if (not self.player.die):
+                self.player.Move(pygame.key.get_pressed())
+                self.player.update()
+                # self.surface.fill((255, 255, 255))
+                self.surface.blit(self.BackGround.image, self.BackGround.rect)
 
-            for i in self.blocks:
-                if (not i.use):
-                    self.surface.blit(i.image, self.camera.apply(i))
+                self.camera.update(self.player)
+
+                for i in self.blocks:
+                    if (not i.use):
+                        self.surface.blit(i.image, self.camera.apply(i))
+
+            else:
+                self.DieText.Update(self.surface)
 
             self.buttonMenu.Update(self.surface)
 

@@ -68,7 +68,6 @@ GRAVITY = 0.35
 BLOCK_SIZE = (32, 32)
 DOOR_SIZE = (32, 64)
 
-
 COLOR = (0, 0, 0)
 WIN_WIDTH = 700  # Ширина создаваемого окна
 WIN_HEIGHT = 400  # Высота
@@ -86,7 +85,7 @@ ANIMATION_LEFT = [('Images\\Animations\\Player\\run_l1.png'),
                   ('Images\\Animations\\Player\\run_l3.png')]
 ANIMATION_JUMP_LEFT = ['Images\\Animations\\Player\\jump_l.png']
 ANIMATION_JUMP_RIGHT = ['Images\\Animations\\Player\\jump_r.png']
-ANIMATION_JUMP = ['Images\\Animations\\Player\\jump_r.png']
+
 ANIMATION_STAY_RIGHT = ['Images\\Animations\\Player\\stay_r.png']
 ANIMATION_STAY_LEFT = ['Images\\Animations\\Player\\stay_l.png']
 
@@ -107,6 +106,7 @@ LEVEL_GENERATOR_SPRITES = {
     "$": "Images\\Blocks\\$.png",
     "Water": "Images\\Blocks\\W.png",
     "WaterKill": "Images\\Blocks\\V.png",
+    "Spikes": "Images\\Blocks\\Spikes.png",
     "Door_Close": "Images\\Blocks\\Door_Close.png",
     "Key": "Images\\Blocks\\Key.png",
     "Coin": "Images\\Blocks\\Coin.png",

@@ -5,7 +5,7 @@ from Classes.Settings import *
 
 pygame.init()
 clock = pygame.time.Clock()
-windows = pygame.display.set_mode((700, 400))
+windows = pygame.display.set_mode((WIN_WIDTH, WIN_HEIGHT))
 pygame.display.set_caption("Test")
 
 surface = pygame.Surface((WIN_WIDTH, WIN_HEIGHT))
@@ -36,7 +36,7 @@ while runGame:
     elif (Menus.currentStage == "Game"):
         if (not GAME):
             GAME = Menus.Game(windows)
-        elif (GAME.player.on_water):
+        elif (GAME.reload):
             GAME = Menus.Game(windows)
         GAME.Update(windows)
 

@@ -29,6 +29,7 @@ class Player(pygame.sprite.Sprite):
 
         self.rect = self.image.get_rect()
         self.rect.topleft = self.position[0], self.position[1]
+        self.leftRight = "right"
 
         self.xvel = 0
         self.yvel = 0  # скорость вертикального перемещения
@@ -41,17 +42,27 @@ class Player(pygame.sprite.Sprite):
 
         self.use = False
 
-        self.on_water = False
+        self.die = False
 
         self.update()
 
 
     def Move(self, keys):
+        if not (keys[pygame.K_d] or keys[pygame.K_a]):  # стоим, когда нет указаний идти
+            if (self.xvel > 0):
+                self.stage = "nr"
+            elif (self.xvel < 0):
+                self.stage = "nl"
+            else:
+                self.stage = 'nr' if (self.leftRight == "right") else 'nl'
+            self.xvel = 0
+
         if (keys[pygame.K_d]):
             if (self._movingX == -self.speed):
                 self.Flip()
                 self._movingX = self.speed
             self.xvel = self.speed
+            self.leftRight = "right"
             if (not keys[pygame.K_SPACE]):
                 self.stage = 'r'
         elif (keys[pygame.K_a]):
@@ -59,6 +70,7 @@ class Player(pygame.sprite.Sprite):
                 self.Flip()
                 self._movingX = -self.speed
             self.xvel = -self.speed
+            self.leftRight = "left"
             if (not keys[pygame.K_SPACE]):
                 self.stage = 'l'
 
@@ -67,17 +79,10 @@ class Player(pygame.sprite.Sprite):
                 self.yvel = -self.JUMP_POWER
             if (keys[pygame.K_d]):
                 self.stage = 'jr'
-            if (keys[pygame.K_a]):
+            elif (keys[pygame.K_a]):
                 self.stage = 'jl'
             else:
-                self.stage = 'j'
-
-        if not (keys[pygame.K_d] or keys[pygame.K_a]):  # стоим, когда нет указаний идти
-            if (self.xvel > 0):
-                self.stage = "nr"
-            elif (self.xvel < 0):
-                self.stage = "nl"
-            self.xvel = 0
+                self.stage = 'jr' if (self.leftRight == "right") else 'jl'
 
         if not self.onGround:
             self.yvel += self.GRAVITY
@@ -88,15 +93,14 @@ class Player(pygame.sprite.Sprite):
 
         self.rect.x += self.xvel  # переносим свои положение на xvel
         self.Collide(self.xvel, 0, self.walls)
+        # print(self.leftRight, self.stage)
 
         if self.stage == 'l':
             self.frames = ANIMATION_LEFT
         elif self.stage == 'r':
             self.frames = ANIMATION_RIGHT
-        elif self.stage == 'j':
-            self.frames = ANIMATION_JUMP
         elif self.stage == 'jr':
-            self.frames = ANIMATION_JUMP_LEFT
+            self.frames = ANIMATION_JUMP_RIGHT
         elif self.stage == 'jl':
             self.frames = ANIMATION_JUMP_LEFT
         elif self.stage == 'nl':
@@ -108,7 +112,7 @@ class Player(pygame.sprite.Sprite):
     def Collide(self, xvel, yvel, platforms):
         for prefab in platforms:
             if pygame.sprite.collide_rect(self, prefab):  # если есть пересечение платформы с игроком
-                print(prefab.tag)
+                # print(prefab.tag)
                 if (prefab.tag == "Block"):
                     if xvel > 0:  # если движется вправо
                         self.rect.right = prefab.rect.left  # то не движется вправо
@@ -134,8 +138,8 @@ class Player(pygame.sprite.Sprite):
                     prefab.use = True
                 elif (prefab.tag == "Door" and not prefab.use and self.getKey):
                     self.inDoor = True
-                elif (prefab.tag == "WaterKill" and not prefab.use):
-                    self.on_water = True
+                elif ((prefab.tag == "WaterKill" or prefab.tag == "Spikes") and not prefab.use):
+                    self.die = True
 
 
     def Flip(self):
