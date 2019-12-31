@@ -8,6 +8,7 @@ from  Classes.UI.Slider import Slider
 from Classes.UI.Background import Background
 from Classes.UI.Image import Image
 from Classes.UI.Panel import Panel
+from Classes.UI.Text import Text
 from Classes.Settings import *
 
 
@@ -213,7 +214,7 @@ class Menus:
             self.surface = surface
 
             self.BackGround = Background()
-
+            self.DieText = Text(text="DIE! Press R to restart!", w=WIN_WIDTH, h=WIN_HEIGHT, color=(255, 255, 255, 1), fontSize=90)
             self.level_name = Menus.currentLevel
 
             self.on_level_collect = 0
@@ -224,6 +225,12 @@ class Menus:
             self.blocks = pygame.sprite.Group()
             self.wallList = pygame.sprite.Group()
             self.prefabs = []
+            self.reload = False
+
+            self.sound = pygame.mixer.Sound(SOUNDS_GAME["W1_Music"])
+            self.sound.set_volume(SavesManager.AUDIO_VOLUME)
+
+            self.sound.play(loops=10000)
 
             self.camera = None
 
@@ -232,6 +239,7 @@ class Menus:
             self.GenerateLevel()
 
         def ToLevelSelector(self):
+            self.sound.stop()
             Menus.currentStage = "Level Selector"
             Menus.currentLevel = ""
             time.sleep(PAUSE_TO_LOAD)
@@ -247,31 +255,52 @@ class Menus:
                     self.levels_list = data["levels_list"]
             except:
                 raise Exception("Level not found in json!")
+            typeWorld = self.level["type"]
+            self.level = self.level["map"]
 
-            
+            self.BackGround = Background(typeWorld=typeWorld)
+
             x, y, step = 0, 0, 32
             level_for = ""
             for i in self.level: level_for += i
             for symbol in level_for:
-                if (symbol in LEVEL_GENERATOR_SPRITES.keys()):
-                    block = Block(x, y, symbol)
+                if (symbol in LEVEL_GENERATOR_SPRITES[typeWorld].keys()):
+                    block = Block(x, y, symbol, typeWorld=typeWorld)
                     self.blocks.add_internal(block)
                     self.wallList.add_internal(block)
                     x += step
                 elif (symbol == "C"):
-                    coin = Coin(x, y)
+                    coin = Coin(x, y, typeWorld=typeWorld)
                     self.blocks.add_internal(coin)
                     self.wallList.add_internal(coin)
                     x += step
                 elif (symbol == "D"):
-                    door = Door(x, y)
+                    door = Door(x, y, typeWorld=typeWorld)
                     self.blocks.add_internal(door)
                     self.wallList.add_internal(door)
                     x += step
                 elif (symbol == "K"):
-                    key = Key(x, y)
+                    key = Key(x, y, typeWorld=typeWorld)
                     self.blocks.add_internal(key)
                     self.wallList.add_internal(key)
+                    x += step
+                elif (symbol == "W"):
+                    water = Water(x, y, typeWorld=typeWorld)
+                    self.blocks.add_internal(water)
+                    self.wallList.add_internal(water)
+                    x += step
+                elif (symbol == "V"):
+                    waterKill = WaterKill(x, y, typeWorld=typeWorld)
+                    self.blocks.add_internal(waterKill)
+                    self.wallList.add_internal(waterKill)
+                    x += step
+                elif (symbol == "S"):
+                    spikes = Spikes(x, y, typeWorld=typeWorld)
+                    self.blocks.add_internal(spikes)
+                    self.wallList.add_internal(spikes)
+                    x += step
+                elif (symbol == "P"):
+                    self.player.rect.topleft = (x, y)
                     x += step
                 elif (symbol == "|"):
                     x = 0
@@ -292,16 +321,27 @@ class Menus:
                     SavesManager.SaveGame(SavesManager)
                     sys.exit()
 
-            self.player.Move(pygame.key.get_pressed())
-            self.player.update()
-            # self.surface.fill((255, 255, 255))
-            self.surface.blit(self.BackGround.image, self.BackGround.rect)
+                if (event.type == pygame.KEYDOWN):
+                    if (self.player.die and event.key == pygame.K_r):
+                        self.sound.stop()
+                        self.reload = True
 
-            self.camera.update(self.player)
+            if (not self.player.die):
+                self.sound.set_volume(SavesManager.AUDIO_VOLUME)
 
-            for i in self.blocks:
-                if (not i.use):
-                    self.surface.blit(i.image, self.camera.apply(i))
+                self.player.Move(pygame.key.get_pressed())
+                self.player.update()
+                # self.surface.fill((255, 255, 255))
+                self.surface.blit(self.BackGround.image, self.BackGround.rect)
+
+                self.camera.update(self.player)
+
+                for i in self.blocks:
+                    if (not i.use):
+                        self.surface.blit(i.image, self.camera.apply(i))
+
+            else:
+                self.DieText.Update(self.surface)
 
             self.buttonMenu.Update(self.surface)
 
