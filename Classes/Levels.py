@@ -1,4 +1,4 @@
-import requests, threading, time, json, random, pygame, sys
+import requests, threading, time, json, random, pygame, sys, os
 from Classes.Player import Player
 from Classes.Block import *
 from Classes.Camera import *
@@ -176,16 +176,24 @@ class Menus:
             self.BackGround = Background()
 
             self.buttonMenu = Button(x=650, y=0, w=50, h=50, name="Menu", text="Menu", color=(230, 0, 0), onColor=(200, 0, 0), pressColor=(150, 0, 0), fontSize=25, func=self.ToMenu)
-            self.levelButtons = [
-                Button(x=0, y=0, w=100, h=100, text="1", color=(230, 230, 230), onColor=(200, 200, 200), pressColor=(150, 150, 150), func=lambda: self.ToGame("level_1")),
-                Button(x=100, y=0, w=100, h=100, text="2", color=(230, 230, 230), onColor=(200, 200, 200), pressColor=(150, 150, 150), func=lambda: self.ToGame("level_2")),
-                Button(x=200, y=0, w=100, h=100, text="3", color=(230, 230, 230), onColor=(200, 200, 200), pressColor=(150, 150, 150), func=lambda: self.ToGame("level_3")),
-            ]
 
-        def ToGame(self, level_name):
-            if (SavesManager.save["levels"][level_name]["open"]):
+            names = [i.rsplit(".", 1)[0] for i in os.listdir(f"{os.getcwd()}\\Levels")]
+            self.levelButtons = []
+
+            x, y, step = 0, 0, BUTTON_LEVEL_SELECTOR_SIZE[0]
+            for name in names:
+                if (x < WIN_WIDTH - 100):
+                    self.levelButtons.append(Button(x=x, y=y, w=BUTTON_LEVEL_SELECTOR_SIZE[0], h=BUTTON_LEVEL_SELECTOR_SIZE[0], text=name, color=(230, 230, 230), onColor=(200, 200, 200), pressColor=(150, 150, 150), func=self.ToGame, kwargs={"levelName": name}))
+                    x += step
+                else:
+                    y += step
+                    self.levelButtons.append(Button(x=0, y=y, w=BUTTON_LEVEL_SELECTOR_SIZE[0], h=BUTTON_LEVEL_SELECTOR_SIZE[0], text=name, color=(230, 230, 230), onColor=(200, 200, 200), pressColor=(150, 150, 150), func=self.ToGame, kwargs={"levelName": name}))
+                    x = 100
+
+        def ToGame(self, kwargs):
+            if (SavesManager.save["levels"][kwargs["levelName"]]["open"]):
                 Menus.currentStage = "Game"
-                Menus.currentLevel = level_name
+                Menus.currentLevel = kwargs["levelName"]
                 time.sleep(PAUSE_TO_LOAD)
         
         def ToMenu(self):
@@ -245,14 +253,14 @@ class Menus:
             time.sleep(PAUSE_TO_LOAD)
 
         def OpenNextLevel(self):
-            SavesManager.save["levels"][self.levels_list[Menus.currentLevel]]["open"] = True
+            if (Menus.currentLevel != list(SavesManager.save["levels"].keys())[-1]):
+                SavesManager.save["levels"][list(SavesManager.save["levels"].keys())[list(SavesManager.save["levels"].keys()).index(Menus.currentLevel) + 1]]["open"] = True
 
         def GenerateLevel(self):
+            print(self.level_name)
             try:
-                with open("Levels\\levels.json", "r") as levels:
-                    data = json.load(levels)
-                    self.level = data[self.level_name]
-                    self.levels_list = data["levels_list"]
+                with open(f"Levels\\{self.level_name}.json", "r") as levels:
+                    self.level = json.load(levels)
             except:
                 raise Exception("Level not found in json!")
             typeWorld = self.level["type"]

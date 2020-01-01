@@ -1,4 +1,4 @@
-import json
+import json,os
 
 PLAYER_JUMP_FORCE_LEVELS = {
     1: {"value": 5, "price": 1},
@@ -32,8 +32,12 @@ class SavesManager:
 
     def LoadGame(self):
         try:
+            names = [i.rsplit(".", 1)[0] for i in os.listdir(f"{os.getcwd()}\\Levels")]
             with open("Saves\\save.json", "r") as saves:
                 self.save = json.load(saves)
+            for name in names:
+                if (name not in self.save["levels"].keys()):
+                    self.save["levels"][name] = {"open": False}
         except: pass
 
     def SaveGame(self):
@@ -67,6 +71,8 @@ GRAVITY = 0.35
 
 BLOCK_SIZE = (32, 32)
 DOOR_SIZE = (32, 64)
+BUTTON_LEVEL_SELECTOR_SIZE = (100, 100)
+
 
 COLOR = (0, 0, 0)
 WIN_WIDTH = 700  # Ширина создаваемого окна

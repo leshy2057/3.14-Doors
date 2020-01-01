@@ -3,7 +3,7 @@ from Classes.Settings import *
 
 
 class Button(object):
-    def __init__(self, x=0, y=0, w=100, h=100, musicSound="B_Click", spriteName=None, name=None, text="Text", fontSize=20, color=(255, 0, 0), onColor=(200, 0, 0), pressColor=(150, 0, 0), func=None):
+    def __init__(self, x=0, y=0, w=100, h=100, musicSound="B_Click", spriteName=None, name=None, text="Text", fontSize=20, color=(255, 0, 0), onColor=(200, 0, 0), pressColor=(150, 0, 0), func=None, kwargs=None):
         self.normalColor = color
         self.onColor = onColor
         self.pressColor = pressColor
@@ -12,6 +12,9 @@ class Button(object):
         self.y = y
         self.w = w
         self.h = h
+
+        self.kwargs = kwargs
+
         self.name = name
 
         self.font = pygame.font.Font(None, fontSize)
@@ -51,7 +54,10 @@ class Button(object):
                 screen.blit(self.normalImage, (self.x, self.y))
             elif (self.OnButton() and bool(pygame.mouse.get_pressed()[0] == 0 and self.lastPointer == 1)):
                 screen.blit(self.pressImage, (self.x, self.y))
-                if (self.event): self.event(); self.PlaySound()
+                if (self.event):
+                    if (self.kwargs): self.event(self.kwargs)
+                    else: self.event()
+                    self.PlaySound()
             else:
                 screen.blit(self.onImage, (self.x, self.y))
         else:
@@ -59,7 +65,9 @@ class Button(object):
                 bg = self.normalColor
             elif (self.OnButton() and bool(pygame.mouse.get_pressed()[0] == 0 and self.lastPointer == 1)):
                 bg = self.pressColor
-                if (self.event): self.event(); self.PlaySound()
+                if (self.kwargs): self.event(self.kwargs)
+                else: self.event()
+                self.PlaySound()
             else:
                 bg = self.onColor
 
