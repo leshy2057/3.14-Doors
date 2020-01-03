@@ -18,14 +18,14 @@ class Block(pygame.sprite.Sprite):
 
 
 class Coin(Block):
-    def __init__(self, x, y, name="Coin", typeWorld="World_1"):
+    def __init__(self, x, y, name="C", typeWorld="World_1"):
         super().__init__(x, y, name, typeWorld)
         self.tag = "Coin"
         self.use = False
 
 
 class Door(Block):
-    def __init__(self, x, y, name="Door_Close", typeWorld="World_1"):
+    def __init__(self, x, y, name="D", typeWorld="World_1"):
         super().__init__(x, y, name, typeWorld)
         self.image = pygame.transform.scale(self.image, DOOR_SIZE)
         self.tag = "Door"
@@ -33,7 +33,7 @@ class Door(Block):
 
 
 class Key(Block):
-    def __init__(self, x, y, name="Key", typeWorld="World_1"):
+    def __init__(self, x, y, name="K", typeWorld="World_1"):
         super().__init__(x, y, name, typeWorld)
         self.image = pygame.transform.scale(self.image, BLOCK_SIZE)
         self.tag = "Key"
@@ -41,7 +41,7 @@ class Key(Block):
 
 
 class Water(Block):
-    def __init__(self, x, y, name="Water", typeWorld="World_1"):
+    def __init__(self, x, y, name="W", typeWorld="World_1"):
         super().__init__(x, y, name, typeWorld)
         self.image = pygame.transform.scale(self.image, BLOCK_SIZE)
         self.tag = "Water"
@@ -49,7 +49,7 @@ class Water(Block):
 
 
 class WaterKill(Block):
-    def __init__(self, x, y, name="WaterKill", typeWorld="World_1"):
+    def __init__(self, x, y, name="V", typeWorld="World_1"):
         super().__init__(x, y, name, typeWorld)
         self.image = pygame.transform.scale(self.image, BLOCK_SIZE)
         self.tag = "WaterKill"
@@ -57,7 +57,7 @@ class WaterKill(Block):
 
 
 class Spikes(Block):
-    def __init__(self, x, y, name="Spikes", typeWorld="World_1"):
+    def __init__(self, x, y, name="S", typeWorld="World_1"):
         super().__init__(x, y, name, typeWorld)
         self.image = pygame.transform.scale(self.image, BLOCK_SIZE)
         self.tag = "Spikes"

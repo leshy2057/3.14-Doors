@@ -1,4 +1,4 @@
-import json
+import json,os
 
 PLAYER_JUMP_FORCE_LEVELS = {
     1: {"value": 5, "price": 1},
@@ -32,8 +32,12 @@ class SavesManager:
 
     def LoadGame(self):
         try:
+            names = [i.rsplit(".", 1)[0] for i in os.listdir(f"{os.getcwd()}\\Levels")]
             with open("Saves\\save.json", "r") as saves:
                 self.save = json.load(saves)
+            for name in names:
+                if (name not in self.save["levels"].keys()):
+                    self.save["levels"][name] = {"open": False}
         except: pass
 
     def SaveGame(self):
@@ -67,6 +71,8 @@ GRAVITY = 0.35
 
 BLOCK_SIZE = (32, 32)
 DOOR_SIZE = (32, 64)
+BUTTON_LEVEL_SELECTOR_SIZE = (100, 100)
+
 
 COLOR = (0, 0, 0)
 WIN_WIDTH = 700  # Ширина создаваемого окна
@@ -105,12 +111,12 @@ LEVEL_GENERATOR_SPRITES = {
         "@": "Images\\Blocks\\World_1\\@.png",
         "#": "Images\\Blocks\\World_1\\#.png",
         "$": "Images\\Blocks\\World_1\\$.png",
-        "Water": "Images\\Blocks\\World_1\\W.png",
-        "WaterKill": "Images\\Blocks\\World_1\\V.png",
-        "Spikes": "Images\\Blocks\\World_1\\Spikes.png",
-        "Door_Close": "Images\\Blocks\\World_1\\Door_Close.png",
-        "Key": "Images\\Blocks\\World_1\\Key.png",
-        "Coin": "Images\\Blocks\\World_1\\Coin.png",
+        "W": "Images\\Blocks\\World_1\\W.png",
+        "V": "Images\\Blocks\\World_1\\V.png",
+        "S": "Images\\Blocks\\World_1\\S.png",
+        "D": "Images\\Blocks\\World_1\\D.png",
+        "K": "Images\\Blocks\\World_1\\K.png",
+        "C": "Images\\Blocks\\World_1\\C.png",
         "Background": "Images\\UI\\BackgroundSummer.png"
     },
     "World_2":{
@@ -127,12 +133,12 @@ LEVEL_GENERATOR_SPRITES = {
         "@": "Images\\Blocks\\World_2\\@.png",
         "#": "Images\\Blocks\\World_2\\#.png",
         "$": "Images\\Blocks\\World_2\\$.png",
-        "Water": "Images\\Blocks\\World_2\\W.png",
-        "WaterKill": "Images\\Blocks\\World_2\\V.png",
-        "Spikes": "Images\\Blocks\\World_2\\Spikes.png",
-        "Door_Close": "Images\\Blocks\\World_2\\Door_Close.png",
-        "Key": "Images\\Blocks\\World_2\\Key.png",
-        "Coin": "Images\\Blocks\\World_2\\Coin.png",
+        "W": "Images\\Blocks\\World_2\\W.png",
+        "V": "Images\\Blocks\\World_2\\V.png",
+        "S": "Images\\Blocks\\World_2\\S.png",
+        "D": "Images\\Blocks\\World_2\\D.png",
+        "K": "Images\\Blocks\\World_2\\K.png",
+        "C": "Images\\Blocks\\World_2\\C.png",
         "Background": "Images\\UI\\BackgroundWinter.png"
     }
 }
@@ -146,6 +152,7 @@ UI_SPRITES = {
 IMAGES = {
     "U_Speed": "Images\\Images\\U_Speed.png",
     "U_Jump": "Images\\Images\\U_Jump.png",
+    "U_Coin": "Images\\Images\\U_Coin.png",
 }
 
 
