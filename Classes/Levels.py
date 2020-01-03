@@ -1,15 +1,21 @@
-import requests, threading, time, json, random, pygame, sys, os
+import time, sys
 from Classes.Player import Player
-from Classes.Block import *
-from Classes.Camera import *
 from Classes.Settings import *
-from Classes.UI.Button import Button
-from  Classes.UI.Slider import Slider
+from Classes.UI.Slider import Slider
 from Classes.UI.Background import Background
 from Classes.UI.Image import Image
 from Classes.UI.Panel import Panel
 from Classes.UI.Text import Text
-from Classes.Settings import *
+from Classes.UI.Button import Button
+from Classes.Camera import Camera
+from Classes.Block import *
+
+from Classes.Editor.Settings import *
+from Classes.Editor.Pointer import *
+from Classes.Editor.Camera import *
+from Classes.Editor.Block import *
+from Classes.Editor.Tools import *
+from Classes.Editor.UI.Button import *
 
 
 class Menus:
@@ -21,10 +27,11 @@ class Menus:
             self.surface = surface
 
             self.BackGround = Background()
-            self.buttonStart = Button(200, 20, 300, 70,spriteName="D1_Button",  name="Start", text="Start", fontSize=60, color=(230, 230, 230), onColor=(200, 200, 200), pressColor=(150, 150, 150), func=self.ToLevelSelector)
-            self.buttonSettings = Button(200, 110, 300, 70, name="Settings", text="Settings", fontSize=60, color=(0, 230, 230), onColor=(0, 200, 200), pressColor=(0, 150, 150), func=self.ToLevelSettings)
-            self.buttonUpgrade = Button(200, 220, 300, 70, name="Upgrade", text="Upgrade", fontSize=60, color=(0, 230, 230), onColor=(0, 200, 200), pressColor=(0, 150, 150), func=self.ToLevelUpgrade)
-            self.buttonExit = Button(200, 310, 300, 70, name="Exit", text="Exit", fontSize=60, color=(230, 0, 0), onColor=(200, 0, 0), pressColor=(150, 0, 0), func=self.Exit)
+            self.buttonStart = Button(200, 5, 300, 70,spriteName="D1_Button",  name="Start", text="Start", fontSize=60, color=(230, 230, 230), onColor=(200, 200, 200), pressColor=(150, 150, 150), func=self.ToLevelSelector)
+            self.buttonSettings = Button(200, 85, 300, 70, name="Settings", text="Settings", fontSize=60, color=(0, 230, 230), onColor=(0, 200, 200), pressColor=(0, 150, 150), func=self.ToLevelSettings)
+            self.buttonUpgrade = Button(200, 165, 300, 70, name="Upgrade", text="Upgrade", fontSize=60, color=(0, 230, 230), onColor=(0, 200, 200), pressColor=(0, 150, 150), func=self.ToLevelUpgrade)
+            self.buttonCreator = Button(200, 245, 300, 70, name=None, text="Level Creator", fontSize=60, color=(0, 230, 230), onColor=(0, 200, 200), pressColor=(0, 150, 150), func=self.ToLevelCreator)
+            self.buttonExit = Button(200, 325, 300, 70, name="Exit", text="Exit", fontSize=60, color=(230, 0, 0), onColor=(200, 0, 0), pressColor=(150, 0, 0), func=self.Exit)
 
         def ToLevelSelector(self):
             Menus.currentStage = "Level Selector"
@@ -36,6 +43,10 @@ class Menus:
 
         def ToLevelUpgrade(self):
             Menus.currentStage = "Upgrade"
+            time.sleep(PAUSE_TO_LOAD)
+
+        def ToLevelCreator(self):
+            Menus.currentStage = "MenuB"
             time.sleep(PAUSE_TO_LOAD)
 
         def Exit(self):
@@ -53,6 +64,7 @@ class Menus:
             self.buttonStart.Update(self.surface)
             self.buttonSettings.Update(self.surface)
             self.buttonUpgrade.Update(self.surface)
+            self.buttonCreator.Update(self.surface)
             self.buttonExit.Update(self.surface)
             windows.blit(self.surface, (0, 0))
 
@@ -116,6 +128,9 @@ class Menus:
             self.u_jumpImage = Image(x=490, y=20, w=160, h=220, name="U_Jump")
             self.u_jumpButton =  Button(x=450, y=240, w=230, h=70, name="Jump", text="Jump", color=(0, 230, 230), onColor=(0, 200, 200), pressColor=(0, 150, 150), fontSize=25, func=lambda: self.UpgradeStat("jump_level"))
 
+            self.u_coinPanel = Panel(x=270, y=0, w=160, h=310, color=(220, 220, 220, 150))
+            self.u_coinImage = Image(x=270, y=20, w=160, h=184, name="U_Coin")
+            self.u_coinText = Text(x=270, y=240, w=160, h=70, text="100", fontSize=30)
 
             self.buttonMenu = Button(x=150, y=330, w=400, h=50, name="Menu", text="Menu", color=(0, 230, 230), onColor=(0, 200, 200), pressColor=(0, 150, 150), fontSize=25, func=self.ToMenu)
 
@@ -150,6 +165,8 @@ class Menus:
                     SavesManager.SaveGame(SavesManager)
                     sys.exit()
 
+            self.u_coinText.text = f"{SavesManager.save['player']['moneys']}"
+
             # self.surface.fill((255, 255, 255))
             self.surface.blit(self.BackGround.image, self.BackGround.rect)
 
@@ -161,11 +178,153 @@ class Menus:
             self.surface.blit(self.u_jumpImage.image, self.u_jumpImage.rect)
             self.u_jumpButton.Update(self.surface)
 
+            self.surface.blit(self.u_coinPanel.image, self.u_coinPanel.rect)
+            self.surface.blit(self.u_coinImage.image, self.u_coinImage.rect)
+            self.u_coinText.Update(self.surface)
+
             self.buttonMenu.Update(self.surface)
 
             #for button in self.languages_button:
                 #button.Update(self.surface)
 
+            windows.blit(self.surface, (0, 0))
+
+
+    class MenuBetweenLevelCreator:
+        def __init__(self, surface):
+            self.surface = surface
+
+            self.buttonMenu = Button(200, 210, 300, 70, name=None, text="Menu", fontSize=60, color=(0, 230, 230), onColor=(0, 200, 200), pressColor=(0, 150, 150), func=self.ToMenu)
+
+            self.worldButtons = [
+                Button(200, 20, 300, 70, name=None, text="World_1", fontSize=60, color=(0, 230, 230), onColor=(0, 200, 200), pressColor=(0, 150, 150), func=lambda: self.ChangeWorldType("World_1")),
+                Button(200, 110, 300, 70, name=None, text="World_2", fontSize=60, color=(0, 230, 230), onColor=(0, 200, 200), pressColor=(0, 150, 150), func=lambda: self.ChangeWorldType("World_2"))
+            ]
+
+
+        def ToMenu(self):
+            Menus.currentStage = "Menu"
+            time.sleep(PAUSE_TO_LOAD)
+
+        def ChangeWorldType(self, typeOfWorld="World_1"):
+            DynamicSettings.WORLD_TYPE = typeOfWorld
+            Menus.currentStage = "Level Creator"
+            time.sleep(PAUSE_TO_LOAD)
+
+        def Update(self, windows):
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    SavesManager.SaveGame(SavesManager)
+                    sys.exit()
+
+            self.surface.fill(BACKGROUND_COLOR)
+
+            for button in self.worldButtons:
+                button.Update(self.surface)
+
+            self.buttonMenu.Update(self.surface)
+
+            windows.blit(self.surface, (0, 0))
+
+
+
+    class LevelCreator:
+        def __init__(self, surface):
+            self.surface = surface
+
+            self.mapEditorSurface = pygame.Surface((DRAW_WIDTH, DRAW_HEIGHT))
+
+            self.POINTER = Pointer()
+            self.CAMERA = CameraLevelCreator(camera_configure, TOTAL_WIDTH, TOTAL_HEIGHT)
+
+            self.buttons = [
+                Button(x=600, y=000, text="P", func=lambda: Tools.ChangeTool(Tools, "Paint")),
+                Button(x=600, y=100, text="E", func=lambda: Tools.ChangeTool(Tools, "Earse")),
+                Button(x=600, y=200, text="Menu", func=self.ToMenu)
+            ]
+
+            self.matrix = []
+            x, y, step = 0, 0, 32
+
+            for i in range(COUNT_HEIGHT):
+                for j in range(COUNT_WIDTH):
+                    self.matrix.append(EmptyBlock(x, y))
+                    x += step
+                y += step
+                x = 0
+
+            self.pallete = []
+            x, y, step = 0, DRAW_HEIGHT, 50
+
+            self.pallete_names = [i.rsplit(".", 1)[0] for i in os.listdir(f"{os.getcwd()}\\Images\\Blocks\\{DynamicSettings.WORLD_TYPE}")]
+            count = 0
+
+            for i in range(2):
+                for j in range(12):
+                    self.pallete.append(TileBlock(x, y, name=self.pallete_names[count] if count < len(self.pallete_names) else "EmptyBlock"))
+                    count += 1
+                    x += step
+                y += step
+                x = 0
+
+        def ToMenu(self):
+            Menus.currentStage = "MenuB"
+            time.sleep(PAUSE_TO_LOAD)
+
+        def GenrateLevel(self):
+            level = {"map": None, "type": DynamicSettings.WORLD_TYPE}
+
+            map = []
+
+            line = ""
+            for block in self.matrix:
+                if (len(line) < COUNT_WIDTH - 1):
+                    line += block.name if (block.name != "EmptyBlock") else " "
+                else:
+                    line += block.name if (block.name != "EmptyBlock") else " "
+                    line += "|"
+                    map.append(line)
+                    line = ""
+
+            level["map"] = map
+
+            self.level_names = [i.rsplit(".", 1)[0] for i in os.listdir(f"{os.getcwd()}\\Levels")]
+            next_num = int(self.level_names[-1].rsplit("_")[-1]) + 1
+
+            with open(f"Levels\\level_{next_num}.json", "w", encoding="utf-8") as file:
+                file.write(json.dumps(level))
+
+
+        def Update(self, windows):
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    SavesManager.SaveGame(SavesManager)
+                    sys.exit()
+
+                elif (event.type == pygame.KEYUP):
+                    if (event.key == pygame.K_F5):
+                        self.GenrateLevel()
+
+            self.mapEditorSurface.fill(BACKGROUND_COLOR)
+
+            self.POINTER.Move(pygame.key.get_pressed())
+
+            for block in self.matrix:
+                block.Update()
+                self.CAMERA.apply(block)
+                self.mapEditorSurface.blit(block.image, block.rectTwo)
+
+            for button in self.buttons:
+                button.Update(self.surface)
+
+            for tile in self.pallete:
+                tile.Update()
+                windows.blit(tile.image, tile.rect)
+
+            self.POINTER.Update(self.mapEditorSurface)
+            self.CAMERA.update(self.POINTER)
+
+            self.surface.blit(self.mapEditorSurface, (0, 0))
             windows.blit(self.surface, (0, 0))
 
 
@@ -176,19 +335,29 @@ class Menus:
             self.BackGround = Background()
 
             self.buttonMenu = Button(x=650, y=0, w=50, h=50, name="Menu", text="Menu", color=(230, 0, 0), onColor=(200, 0, 0), pressColor=(150, 0, 0), fontSize=25, func=self.ToMenu)
-
-            names = [i.rsplit(".", 1)[0] for i in os.listdir(f"{os.getcwd()}\\Levels")]
             self.levelButtons = []
+            self.last = []
 
-            x, y, step = 0, 0, BUTTON_LEVEL_SELECTOR_SIZE[0]
-            for name in names:
-                if (x < WIN_WIDTH - 100):
-                    self.levelButtons.append(Button(x=x, y=y, w=BUTTON_LEVEL_SELECTOR_SIZE[0], h=BUTTON_LEVEL_SELECTOR_SIZE[0], text=name, color=(230, 230, 230), onColor=(200, 200, 200), pressColor=(150, 150, 150), func=self.ToGame, kwargs={"levelName": name}))
-                    x += step
-                else:
-                    y += step
-                    self.levelButtons.append(Button(x=0, y=y, w=BUTTON_LEVEL_SELECTOR_SIZE[0], h=BUTTON_LEVEL_SELECTOR_SIZE[0], text=name, color=(230, 230, 230), onColor=(200, 200, 200), pressColor=(150, 150, 150), func=self.ToGame, kwargs={"levelName": name}))
-                    x = 100
+            self.GenerateButtons()
+
+
+        def GenerateButtons(self):
+            new = os.listdir(f"{os.getcwd()}\\Levels")
+            if (new != self.last):
+                names = [i.rsplit(".", 1)[0] for i in new]
+
+                x, y, step = 0, 0, BUTTON_LEVEL_SELECTOR_SIZE[0]
+                for name in names:
+                    if (x < WIN_WIDTH - 100):
+                        self.levelButtons.append(Button(x=x, y=y, w=BUTTON_LEVEL_SELECTOR_SIZE[0], h=BUTTON_LEVEL_SELECTOR_SIZE[0], text=name.rstrip("_")[-1], color=(230, 230, 230), onColor=(200, 200, 200), pressColor=(150, 150, 150), func=self.ToGame, kwargs={"levelName": name}))
+                        x += step
+                    else:
+                        y += step
+                        self.levelButtons.append(Button(x=0, y=y, w=BUTTON_LEVEL_SELECTOR_SIZE[0], h=BUTTON_LEVEL_SELECTOR_SIZE[0], text=name.rstrip("_")[-1], color=(230, 230, 230), onColor=(200, 200, 200), pressColor=(150, 150, 150), func=self.ToGame, kwargs={"levelName": name}))
+                        x = 100
+
+                self.last = new
+
 
         def ToGame(self, kwargs):
             if (SavesManager.save["levels"][kwargs["levelName"]]["open"]):
@@ -206,8 +375,8 @@ class Menus:
                     SavesManager.SaveGame(SavesManager)
                     sys.exit()
 
-            # self.surface.fill((255, 255, 255))
             self.surface.blit(self.BackGround.image, self.BackGround.rect)
+            self.GenerateButtons()
 
             for i in self.levelButtons:
                 i.Update(self.surface)
@@ -272,7 +441,7 @@ class Menus:
             level_for = ""
             for i in self.level: level_for += i
             for symbol in level_for:
-                if (symbol in LEVEL_GENERATOR_SPRITES[typeWorld].keys()):
+                if (symbol in LEVEL_GENERATOR_SPRITES[typeWorld].keys() and symbol not in "WVKCDPS|"):
                     block = Block(x, y, symbol, typeWorld=typeWorld)
                     self.blocks.add_internal(block)
                     self.wallList.add_internal(block)

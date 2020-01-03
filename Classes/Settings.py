@@ -111,12 +111,12 @@ LEVEL_GENERATOR_SPRITES = {
         "@": "Images\\Blocks\\World_1\\@.png",
         "#": "Images\\Blocks\\World_1\\#.png",
         "$": "Images\\Blocks\\World_1\\$.png",
-        "Water": "Images\\Blocks\\World_1\\W.png",
-        "WaterKill": "Images\\Blocks\\World_1\\V.png",
-        "Spikes": "Images\\Blocks\\World_1\\Spikes.png",
-        "Door_Close": "Images\\Blocks\\World_1\\Door_Close.png",
-        "Key": "Images\\Blocks\\World_1\\Key.png",
-        "Coin": "Images\\Blocks\\World_1\\Coin.png",
+        "W": "Images\\Blocks\\World_1\\W.png",
+        "V": "Images\\Blocks\\World_1\\V.png",
+        "S": "Images\\Blocks\\World_1\\S.png",
+        "D": "Images\\Blocks\\World_1\\D.png",
+        "K": "Images\\Blocks\\World_1\\K.png",
+        "C": "Images\\Blocks\\World_1\\C.png",
         "Background": "Images\\UI\\BackgroundSummer.png"
     },
     "World_2":{
@@ -133,12 +133,12 @@ LEVEL_GENERATOR_SPRITES = {
         "@": "Images\\Blocks\\World_2\\@.png",
         "#": "Images\\Blocks\\World_2\\#.png",
         "$": "Images\\Blocks\\World_2\\$.png",
-        "Water": "Images\\Blocks\\World_2\\W.png",
-        "WaterKill": "Images\\Blocks\\World_2\\V.png",
-        "Spikes": "Images\\Blocks\\World_2\\Spikes.png",
-        "Door_Close": "Images\\Blocks\\World_2\\Door_Close.png",
-        "Key": "Images\\Blocks\\World_2\\Key.png",
-        "Coin": "Images\\Blocks\\World_2\\Coin.png",
+        "W": "Images\\Blocks\\World_2\\W.png",
+        "V": "Images\\Blocks\\World_2\\V.png",
+        "S": "Images\\Blocks\\World_2\\S.png",
+        "D": "Images\\Blocks\\World_2\\D.png",
+        "K": "Images\\Blocks\\World_2\\K.png",
+        "C": "Images\\Blocks\\World_2\\C.png",
         "Background": "Images\\UI\\BackgroundWinter.png"
     }
 }
@@ -152,6 +152,7 @@ UI_SPRITES = {
 IMAGES = {
     "U_Speed": "Images\\Images\\U_Speed.png",
     "U_Jump": "Images\\Images\\U_Jump.png",
+    "U_Coin": "Images\\Images\\U_Coin.png",
 }
 
 
