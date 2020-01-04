@@ -28,10 +28,10 @@ class Menus:
 
             self.BackGround = Background()
             self.buttonStart = Button(200, 5, 300, 70,spriteName="D1_Button",  name="Start", text="Start", fontSize=60, color=(230, 230, 230), onColor=(200, 200, 200), pressColor=(150, 150, 150), func=self.ToLevelSelector)
-            self.buttonSettings = Button(200, 85, 300, 70, name="Settings", text="Settings", fontSize=60, color=(0, 230, 230), onColor=(0, 200, 200), pressColor=(0, 150, 150), func=self.ToLevelSettings)
-            self.buttonUpgrade = Button(200, 165, 300, 70, name="Upgrade", text="Upgrade", fontSize=60, color=(0, 230, 230), onColor=(0, 200, 200), pressColor=(0, 150, 150), func=self.ToLevelUpgrade)
-            self.buttonCreator = Button(200, 245, 300, 70, name=None, text="Level Creator", fontSize=60, color=(0, 230, 230), onColor=(0, 200, 200), pressColor=(0, 150, 150), func=self.ToLevelCreator)
-            self.buttonExit = Button(200, 325, 300, 70, name="Exit", text="Exit", fontSize=60, color=(230, 0, 0), onColor=(200, 0, 0), pressColor=(150, 0, 0), func=self.Exit)
+            self.buttonSettings = Button(200, 85, 300, 70,spriteName="D1_Button", name="Settings", text="Settings", fontSize=60, color=(0, 230, 230), onColor=(0, 200, 200), pressColor=(0, 150, 150), func=self.ToLevelSettings)
+            self.buttonUpgrade = Button(200, 165, 300, 70,spriteName="D1_Button", name="Upgrade", text="Upgrade", fontSize=60, color=(0, 230, 230), onColor=(0, 200, 200), pressColor=(0, 150, 150), func=self.ToLevelUpgrade)
+            self.buttonCreator = Button(200, 245, 300, 70,spriteName="D1_Button", name=None, text="Level Creator", fontSize=60, color=(0, 230, 230), onColor=(0, 200, 200), pressColor=(0, 150, 150), func=self.ToLevelCreator)
+            self.buttonExit = Button(200, 325, 300, 70,spriteName="D1_Button", name="Exit", text="Exit", fontSize=60, color=(230, 0, 0), onColor=(200, 0, 0), pressColor=(150, 0, 0), func=self.Exit)
 
         def ToLevelSelector(self):
             Menus.currentStage = "Level Selector"
@@ -194,11 +194,12 @@ class Menus:
         def __init__(self, surface):
             self.surface = surface
 
-            self.buttonMenu = Button(200, 210, 300, 70, name=None, text="Menu", fontSize=60, color=(0, 230, 230), onColor=(0, 200, 200), pressColor=(0, 150, 150), func=self.ToMenu)
+            self.BackGround = Background()
+            self.buttonMenu = Button(200, 210, 300, 70,spriteName="D1_Button", name=None, text="Menu", fontSize=60, color=(0, 230, 230), onColor=(0, 200, 200), pressColor=(0, 150, 150), func=self.ToMenu)
 
             self.worldButtons = [
-                Button(200, 20, 300, 70, name=None, text="World_1", fontSize=60, color=(0, 230, 230), onColor=(0, 200, 200), pressColor=(0, 150, 150), func=lambda: self.ChangeWorldType("World_1")),
-                Button(200, 110, 300, 70, name=None, text="World_2", fontSize=60, color=(0, 230, 230), onColor=(0, 200, 200), pressColor=(0, 150, 150), func=lambda: self.ChangeWorldType("World_2"))
+                Button(200, 20, 300, 70,spriteName="D1_Button", name=None, text="World_1", fontSize=60, color=(0, 230, 230), onColor=(0, 200, 200), pressColor=(0, 150, 150), func=lambda: self.ChangeWorldType("World_1")),
+                Button(200, 110, 300, 70,spriteName="D1_Button", name=None, text="World_2", fontSize=60, color=(0, 230, 230), onColor=(0, 200, 200), pressColor=(0, 150, 150), func=lambda: self.ChangeWorldType("World_2"))
             ]
 
 
@@ -218,6 +219,7 @@ class Menus:
                     sys.exit()
 
             self.surface.fill(BACKGROUND_COLOR)
+            self.surface.blit(self.BackGround.image, self.BackGround.rect)
 
             for button in self.worldButtons:
                 button.Update(self.surface)
@@ -392,6 +394,7 @@ class Menus:
 
             self.BackGround = Background()
             self.DieText = Text(text="DIE! Press R to restart!", w=WIN_WIDTH, h=WIN_HEIGHT, color=(255, 255, 255, 1), fontSize=90)
+            # self.DieImage = pygame.image.load(PICTURE_AFTER_DIE)
             self.level_name = Menus.currentLevel
 
             self.on_level_collect = 0
@@ -519,6 +522,8 @@ class Menus:
 
             else:
                 self.DieText.Update(self.surface)
+                # self.surface.blit(self.DieImage, (0, 0))
+                
 
             self.buttonMenu.Update(self.surface)
 

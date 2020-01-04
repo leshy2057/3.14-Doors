@@ -95,6 +95,8 @@ ANIMATION_JUMP_RIGHT = ['Images\\Animations\\Player\\jump_r.png']
 ANIMATION_STAY_RIGHT = ['Images\\Animations\\Player\\stay_r.png']
 ANIMATION_STAY_LEFT = ['Images\\Animations\\Player\\stay_l.png']
 
+PICTURE_AFTER_DIE = '\\Images\\Images\\died_pic.jpg'
+
 
 LEVEL_GENERATOR_SPRITES = {
     "World_1":{
