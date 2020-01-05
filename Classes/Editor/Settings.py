@@ -39,6 +39,8 @@ TILE_SIZE = (50, 50)
 EDITOR_SPRITES = {
     "Pointer": "Images\\Editor\\Pointer.png",
     "EmptyBlock": "Images\\Editor\\EmptyBlock.png",
+    "Earse": "Images\\Editor\\Earse.png",
+    "Paint": "Images\\Editor\\Paint.png",
 }
 
 

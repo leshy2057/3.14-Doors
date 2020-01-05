@@ -71,7 +71,9 @@ GRAVITY = 0.35
 
 BLOCK_SIZE = (32, 32)
 DOOR_SIZE = (32, 64)
-BUTTON_LEVEL_SELECTOR_SIZE = (100, 100)
+BUTTON_LEVEL_SELECTOR_SIZE = (150, 150)
+BUTTON_LEVEL_SELECTOR_STEP = 300
+SCROLL_LEVEL_SELECTOR_STEP = 300
 
 
 COLOR = (0, 0, 0)
@@ -148,6 +150,12 @@ LEVEL_GENERATOR_SPRITES = {
 UI_SPRITES = {
     "BackgroundWinter": "Images\\UI\\BackgroundWinter.png",
     "D1_Button": "Images\\UI\\D1_Button.png",
+    "Earse": "Images\\Editor\\Earse.png",
+    "Paint": "Images\\Editor\\Paint.png",
+    "Back": "Images\\UI\\Back.png",
+    "Ru": "Images\\UI\\RuLangUI.png",
+    "Eng": "Images\\UI\\EngLangUI.png",
+    "Empty": "Images\\UI\\Empty.png",
 }
 
 
