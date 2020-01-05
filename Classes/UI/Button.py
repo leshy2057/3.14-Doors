@@ -43,9 +43,17 @@ class Button(object):
             self.text = SavesManager.LANGUAGE_FILE[SavesManager.LANGUAGE][name]
         self.event = func
 
-    def Update(self, screen):
+    def Update(self, screen, text=None):
         if (self.name and SavesManager.LANGUAGE in SavesManager.LANGUAGE_FILE):
             self.text = SavesManager.LANGUAGE_FILE[SavesManager.LANGUAGE][self.name]
+
+        if (text != None):
+            textOut = f"{self.text}{text}"
+        else:
+            if (self.text):
+                textOut = f"{self.text}"
+            else:
+                textOut = ""
 
         bg = (255, 255, 255)
 
@@ -73,7 +81,7 @@ class Button(object):
 
         self.soundClick.set_volume(SavesManager.AUDIO_VOLUME)
 
-        surf = self.font.render(self.text, True, (0, 0, 0), bg if not self.image else self.image)
+        surf = self.font.render(textOut, True, (0, 0, 0), bg if not self.image else self.image)
         rect = (self.x, self.y, self.w, self.h)
         xo = self.x + (self.w - surf.get_width()) // 2
         yo = self.y + (self.h - surf.get_height()) // 2

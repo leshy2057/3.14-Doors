@@ -1,14 +1,14 @@
 import json,os
 
 PLAYER_JUMP_FORCE_LEVELS = {
-    1: {"value": 5, "price": 1},
+    1: {"value": 5, "price": 0},
     2: {"value": 6, "price": 10},
     3: {"value": 7, "price": 20},
     4: {"value": 8, "price": 30},
 }
 
 PLAYER_SPEED_LEVELS = {
-    1: {"value": 4, "price": 1},
+    1: {"value": 4, "price": 0},
     2: {"value": 5, "price": 12},
     3: {"value": 6, "price": 15},
     4: {"value": 7, "price": 20},

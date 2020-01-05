@@ -2,10 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9a139bb4-c36d-408b-9120-f7c8d4314f27" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/Classes/Editor/Settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/Classes/Editor/Settings.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Classes/Levels.py" beforeDir="false" afterPath="$PROJECT_DIR$/Classes/Levels.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Classes/Settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/Classes/Settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Languages/languages.json" beforeDir="false" afterPath="$PROJECT_DIR$/Languages/languages.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Classes/UI/Button.py" beforeDir="false" afterPath="$PROJECT_DIR$/Classes/UI/Button.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Saves/save.json" beforeDir="false" afterPath="$PROJECT_DIR$/Saves/save.json" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -19,7 +18,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="896">
+            <state relative-caret-position="544">
               <caret line="58" selection-start-line="58" selection-end-line="58" />
               <folding>
                 <element signature="e#0#59#0" expanded="true" />
@@ -28,20 +27,20 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Classes/Levels.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="176">
-              <caret line="352" column="147" selection-start-line="352" selection-start-column="147" selection-end-line="352" selection-end-column="147" />
+            <state relative-caret-position="272">
+              <caret line="390" column="51" selection-start-line="390" selection-start-column="51" selection-end-line="390" selection-end-column="51" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Classes/Settings.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="224">
-              <caret line="157" column="31" selection-start-line="157" selection-start-column="31" selection-end-line="157" selection-end-column="31" />
+            <state relative-caret-position="880">
+              <caret line="55" column="8" selection-start-line="55" selection-start-column="8" selection-end-line="55" selection-end-column="8" />
             </state>
           </provider>
         </entry>
@@ -70,8 +69,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Classes/UI/Button.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="192">
-              <caret line="42" selection-start-line="42" selection-end-line="42" />
+            <state relative-caret-position="272">
+              <caret line="50" column="35" selection-start-line="50" selection-start-column="35" selection-end-line="50" selection-end-column="35" />
             </state>
           </provider>
         </entry>
@@ -80,7 +79,7 @@
         <entry file="file://$PROJECT_DIR$/Saves/save.json">
           <provider selected="true" editor-type-id="text-editor">
             <state>
-              <caret column="92" selection-start-column="92" selection-end-column="92" />
+              <caret column="58" selection-start-column="58" selection-end-column="58" />
             </state>
           </provider>
         </entry>
@@ -130,18 +129,18 @@
         <option value="$PROJECT_DIR$/Classes/UI/Background.py" />
         <option value="$PROJECT_DIR$/Levels/levels.json" />
         <option value="$PROJECT_DIR$/Levels/level_1.json" />
-        <option value="$PROJECT_DIR$/Classes/UI/Button.py" />
         <option value="$PROJECT_DIR$/Classes/Editor/Camera.py" />
         <option value="$PROJECT_DIR$/Classes/Editor/UI/Button.py" />
         <option value="$PROJECT_DIR$/Classes/Editor/Pointer.py" />
         <option value="$PROJECT_DIR$/Classes/Block.py" />
         <option value="$PROJECT_DIR$/main.py" />
         <option value="$PROJECT_DIR$/Classes/Editor/Block.py" />
-        <option value="$PROJECT_DIR$/Saves/save.json" />
         <option value="$PROJECT_DIR$/Languages/languages.json" />
         <option value="$PROJECT_DIR$/Classes/Editor/Settings.py" />
-        <option value="$PROJECT_DIR$/Classes/Levels.py" />
+        <option value="$PROJECT_DIR$/Classes/UI/Button.py" />
         <option value="$PROJECT_DIR$/Classes/Settings.py" />
+        <option value="$PROJECT_DIR$/Saves/save.json" />
+        <option value="$PROJECT_DIR$/Classes/Levels.py" />
       </list>
     </option>
   </component>
@@ -445,13 +444,27 @@
     <entry file="file://$PROJECT_DIR$/Levels/level_2.json">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
+    <entry file="file://$PROJECT_DIR$/Classes/Editor/Settings.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="464">
+          <caret line="42" column="41" selection-start-line="42" selection-start-column="41" selection-end-line="42" selection-end-column="41" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="896">
+        <state relative-caret-position="544">
           <caret line="58" selection-start-line="58" selection-end-line="58" />
           <folding>
             <element signature="e#0#59#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Languages/languages.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="208">
+          <caret line="13" column="4" lean-forward="true" selection-start-line="13" selection-start-column="4" selection-end-line="13" selection-end-column="4" />
         </state>
       </provider>
     </entry>
@@ -467,15 +480,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Classes/UI/Button.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="192">
-          <caret line="42" selection-start-line="42" selection-end-line="42" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Saves/save.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="92" selection-start-column="92" selection-end-column="92" />
+        <state relative-caret-position="272">
+          <caret line="50" column="35" selection-start-line="50" selection-start-column="35" selection-end-line="50" selection-end-column="35" />
         </state>
       </provider>
     </entry>
@@ -489,31 +495,24 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Classes/Editor/Settings.py">
+    <entry file="file://$PROJECT_DIR$/Saves/save.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="464">
-          <caret line="42" column="41" selection-start-line="42" selection-start-column="41" selection-end-line="42" selection-end-column="41" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Languages/languages.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="208">
-          <caret line="13" column="4" lean-forward="true" selection-start-line="13" selection-start-column="4" selection-end-line="13" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Classes/Levels.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="176">
-          <caret line="352" column="147" selection-start-line="352" selection-start-column="147" selection-end-line="352" selection-end-column="147" />
+        <state>
+          <caret column="58" selection-start-column="58" selection-end-column="58" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Classes/Settings.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="224">
-          <caret line="157" column="31" selection-start-line="157" selection-start-column="31" selection-end-line="157" selection-end-column="31" />
+        <state relative-caret-position="880">
+          <caret line="55" column="8" selection-start-line="55" selection-start-column="8" selection-end-line="55" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Classes/Levels.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="390" column="51" selection-start-line="390" selection-start-column="51" selection-end-line="390" selection-end-column="51" />
         </state>
       </provider>
     </entry>

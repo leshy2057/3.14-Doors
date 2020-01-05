@@ -141,14 +141,14 @@ class Menus:
 
         def UpgradeStat(self, name):
             # print(SavesManager.save["player"][name] + 1,  PLAYER_SPEED_LEVELS.keys())
-            if (name == "jump_level"):
+            if (name == "speed_level"):
                 if (SavesManager.save["player"][name] + 1 in PLAYER_SPEED_LEVELS.keys()):
                     if (SavesManager.save["player"]["moneys"] >= PLAYER_SPEED_LEVELS[SavesManager.save["player"][name] + 1]["price"]):
                         SavesManager.save["player"]["moneys"] -= PLAYER_SPEED_LEVELS[SavesManager.save["player"][name] + 1]["price"]
                         SavesManager.save["player"][name] += 1
                     else:
                         print("You don't have moneys!")
-            elif (name == "speed_level"):
+            elif (name == "jump_level"):
                 if (SavesManager.save["player"][name] + 1 in PLAYER_JUMP_FORCE_LEVELS.keys()):
                     if (SavesManager.save["player"]["moneys"] >= PLAYER_JUMP_FORCE_LEVELS[SavesManager.save["player"][name] + 1]["price"]):
                         SavesManager.save["player"]["moneys"] -= PLAYER_JUMP_FORCE_LEVELS[SavesManager.save["player"][name] + 1]["price"]
@@ -170,13 +170,22 @@ class Menus:
             # self.surface.fill((255, 255, 255))
             self.surface.blit(self.BackGround.image, self.BackGround.rect)
 
+            textSpeed = "Max"
+            textJump = "Max"
+
+            if (SavesManager.save["player"]["speed_level"] + 1 in PLAYER_SPEED_LEVELS.keys()):
+                textSpeed = f': {PLAYER_SPEED_LEVELS[SavesManager.save["player"]["speed_level"] + 1]["price"]}'
+
+            if (SavesManager.save["player"]["jump_level"] + 1 in PLAYER_JUMP_FORCE_LEVELS.keys()):
+                textJump = f': {PLAYER_JUMP_FORCE_LEVELS[SavesManager.save["player"]["jump_level"] + 1]["price"]}'
+
             self.surface.blit(self.u_speedPanel.image, self.u_speedPanel.rect)
             self.surface.blit(self.u_speedImage.image, self.u_speedImage.rect)
-            self.u_speedButton.Update(self.surface)
+            self.u_speedButton.Update(self.surface, textSpeed)
 
             self.surface.blit(self.u_jumpPanel.image, self.u_jumpPanel.rect)
             self.surface.blit(self.u_jumpImage.image, self.u_jumpImage.rect)
-            self.u_jumpButton.Update(self.surface)
+            self.u_jumpButton.Update(self.surface, textJump)
 
             self.surface.blit(self.u_coinPanel.image, self.u_coinPanel.rect)
             self.surface.blit(self.u_coinImage.image, self.u_coinImage.rect)
@@ -380,7 +389,6 @@ class Menus:
                                 button.x -= SCROLL_LEVEL_SELECTOR_STEP
 
                     elif (event.key == pygame.K_a):
-                        print(self.levelButtons[0].x)
                         if (self.levelButtons[0].x <= 0):
                             for button in self.levelButtons:
                                 button.x += SCROLL_LEVEL_SELECTOR_STEP
