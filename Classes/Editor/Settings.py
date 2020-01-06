@@ -39,6 +39,8 @@ TILE_SIZE = (50, 50)
 EDITOR_SPRITES = {
     "Pointer": "Images\\Editor\\Pointer.png",
     "EmptyBlock": "Images\\Editor\\EmptyBlock.png",
+    "Earse": "Images\\Editor\\Earse.png",
+    "Paint": "Images\\Editor\\Paint.png",
 }
 
 
@@ -64,6 +66,7 @@ LEVEL_EDITOR_SPRITES = {
         "D": "Images\\Blocks\\World_1\\D.png", # Door
         "K": "Images\\Blocks\\World_1\\K.png", # Key
         "C": "Images\\Blocks\\World_1\\C.png", # Coin
+        "P": "Images\\Blocks\\World_1\\P.png", # Player
     },
     "World_2":{
         "1": "Images\\Blocks\\World_2\\1.png",
@@ -85,6 +88,7 @@ LEVEL_EDITOR_SPRITES = {
         "D": "Images\\Blocks\\World_2\\D.png",
         "K": "Images\\Blocks\\World_2\\K.png",
         "C": "Images\\Blocks\\World_2\\C.png",
+        "P": "Images\\Blocks\\World_2\\P.png",
         "Background": "Images\\UI\\BackgroundWinter.png"
     }
 }

@@ -43,9 +43,18 @@ class Player(pygame.sprite.Sprite):
         self.cur_frame = 0
         self.image = self.frames[self.cur_frame]
 
+        self.soundStep = pygame.mixer.Sound(SOUNDS_GAME["Step"])
+        self.soundStep.set_volume(SavesManager.AUDIO_VOLUME)
+
+        self.soundWater = pygame.mixer.Sound(SOUNDS_GAME["Water"])
+        self.soundWater.set_volume(SavesManager.AUDIO_VOLUME)
+
         self.use = False
 
         self.die = False
+
+        self.pauseBetweenSteps = PAUSE_BETWEEN_STEPS_PLAYER
+        self.getTicksLastFrame = pygame.time.get_ticks()
 
         self.update()
 
@@ -89,6 +98,17 @@ class Player(pygame.sprite.Sprite):
 
         if not self.onGround:
             self.yvel += self.GRAVITY
+
+        if (self.xvel != 0):
+            if (self.pauseBetweenSteps <= 0):
+                self.soundStep.play()
+                self.pauseBetweenSteps = PAUSE_BETWEEN_STEPS_PLAYER
+            self.pauseBetweenSteps -= (pygame.time.get_ticks() - self.getTicksLastFrame) / 1000.0
+        else:
+            self.pauseBetweenSteps = PAUSE_BETWEEN_STEPS_PLAYER
+            self.soundStep.stop()
+
+        self.getTicksLastFrame = pygame.time.get_ticks()
 
         self.onGround = False  # Мы не знаем, когда мы на земле((
         self.rect.y += self.yvel
@@ -141,6 +161,8 @@ class Player(pygame.sprite.Sprite):
                     prefab.use = True
                 elif (prefab.tag == "Door" and not prefab.use and self.getKey):
                     self.inDoor = True
+                elif ((prefab.tag == "Water") and not prefab.use):
+                    self.soundWater.play()
                 elif ((prefab.tag == "WaterKill") and not prefab.use):
                     self.die = True
 
@@ -161,6 +183,10 @@ class Player(pygame.sprite.Sprite):
 
 
     def update(self):
+        for event in pygame.event.get():
+            if event.type == 30:
+                print(1)
+
         self.cur_frame = (self.cur_frame + 1) % len(self.frames)
         self.name = self.frames[self.cur_frame]
         self.image = pygame.image.load(self.name).convert_alpha()

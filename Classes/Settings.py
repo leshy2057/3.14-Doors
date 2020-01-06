@@ -1,14 +1,14 @@
 import json,os
 
 PLAYER_JUMP_FORCE_LEVELS = {
-    1: {"value": 5, "price": 1},
+    1: {"value": 5, "price": 0},
     2: {"value": 6, "price": 10},
     3: {"value": 7, "price": 20},
     4: {"value": 8, "price": 30},
 }
 
 PLAYER_SPEED_LEVELS = {
-    1: {"value": 4, "price": 1},
+    1: {"value": 4, "price": 0},
     2: {"value": 5, "price": 12},
     3: {"value": 6, "price": 15},
     4: {"value": 7, "price": 20},
@@ -71,7 +71,9 @@ GRAVITY = 0.35
 
 BLOCK_SIZE = (32, 32)
 DOOR_SIZE = (32, 64)
-BUTTON_LEVEL_SELECTOR_SIZE = (100, 100)
+BUTTON_LEVEL_SELECTOR_SIZE = (150, 150)
+BUTTON_LEVEL_SELECTOR_STEP = 300
+SCROLL_LEVEL_SELECTOR_STEP = 300
 
 
 COLOR = (0, 0, 0)
@@ -95,6 +97,9 @@ ANIMATION_JUMP_RIGHT = ['Images\\Animations\\Player\\jump_r.png']
 ANIMATION_STAY_RIGHT = ['Images\\Animations\\Player\\stay_r.png']
 ANIMATION_STAY_LEFT = ['Images\\Animations\\Player\\stay_l.png']
 
+PICTURE_AFTER_DIE = '\\Images\\Images\\died_pic.jpg'
+PAUSE_BETWEEN_STEPS_PLAYER = 0.2
+
 
 LEVEL_GENERATOR_SPRITES = {
     "World_1":{
@@ -117,6 +122,7 @@ LEVEL_GENERATOR_SPRITES = {
         "D": "Images\\Blocks\\World_1\\D.png",
         "K": "Images\\Blocks\\World_1\\K.png",
         "C": "Images\\Blocks\\World_1\\C.png",
+        "P": "Images\\Blocks\\World_1\\P.png",
         "Background": "Images\\UI\\BackgroundSummer.png"
     },
     "World_2":{
@@ -139,6 +145,7 @@ LEVEL_GENERATOR_SPRITES = {
         "D": "Images\\Blocks\\World_2\\D.png",
         "K": "Images\\Blocks\\World_2\\K.png",
         "C": "Images\\Blocks\\World_2\\C.png",
+        "P": "Images\\Blocks\\World_2\\P.png",
         "Background": "Images\\UI\\BackgroundWinter.png"
     }
 }
@@ -146,6 +153,12 @@ LEVEL_GENERATOR_SPRITES = {
 UI_SPRITES = {
     "BackgroundWinter": "Images\\UI\\BackgroundWinter.png",
     "D1_Button": "Images\\UI\\D1_Button.png",
+    "Earse": "Images\\Editor\\Earse.png",
+    "Paint": "Images\\Editor\\Paint.png",
+    "Back": "Images\\UI\\Back.png",
+    "Ru": "Images\\UI\\RuLangUI.png",
+    "Eng": "Images\\UI\\EngLangUI.png",
+    "Empty": "Images\\UI\\Empty.png",
 }
 
 
@@ -162,6 +175,9 @@ SOUNDS_UI = {
 }
 
 SOUNDS_GAME = {
-    "W1_Music": "Sounds\\Game\\W1_Music.ogg",
+    "W1_Music": "Sounds\\Game\\W1_Background_JASS.ogg",
+    "W2_Music": "Sounds\\Game\\W2_Background.ogg",
+    "Step": "Sounds\\Game\\Step.ogg",
+    "Water": "Sounds\\Game\\FallWater.ogg",
 }
 

@@ -28,10 +28,10 @@ class Menus:
 
             self.BackGround = Background()
             self.buttonStart = Button(200, 5, 300, 70,spriteName="D1_Button",  name="Start", text="Start", fontSize=60, color=(230, 230, 230), onColor=(200, 200, 200), pressColor=(150, 150, 150), func=self.ToLevelSelector)
-            self.buttonSettings = Button(200, 85, 300, 70, name="Settings", text="Settings", fontSize=60, color=(0, 230, 230), onColor=(0, 200, 200), pressColor=(0, 150, 150), func=self.ToLevelSettings)
-            self.buttonUpgrade = Button(200, 165, 300, 70, name="Upgrade", text="Upgrade", fontSize=60, color=(0, 230, 230), onColor=(0, 200, 200), pressColor=(0, 150, 150), func=self.ToLevelUpgrade)
-            self.buttonCreator = Button(200, 245, 300, 70, name=None, text="Level Creator", fontSize=60, color=(0, 230, 230), onColor=(0, 200, 200), pressColor=(0, 150, 150), func=self.ToLevelCreator)
-            self.buttonExit = Button(200, 325, 300, 70, name="Exit", text="Exit", fontSize=60, color=(230, 0, 0), onColor=(200, 0, 0), pressColor=(150, 0, 0), func=self.Exit)
+            self.buttonSettings = Button(200, 85, 300, 70,spriteName="D1_Button", name="Settings", text="Settings", fontSize=60, color=(230, 230, 230), onColor=(200, 200, 200), pressColor=(150, 150, 150), func=self.ToLevelSettings)
+            self.buttonUpgrade = Button(200, 165, 300, 70,spriteName="D1_Button", name="Upgrade", text="Upgrade", fontSize=60, color=(230, 230, 230), onColor=(200, 200, 200), pressColor=(150, 150, 150), func=self.ToLevelUpgrade)
+            self.buttonCreator = Button(200, 245, 300, 70,spriteName="D1_Button", name="Level Creator", text="Level Creator", fontSize=60, color=(230, 230, 230), onColor=(200, 200, 200), pressColor=(150, 150, 150), func=self.ToLevelCreator)
+            self.buttonExit = Button(200, 325, 300, 70,spriteName="D1_Button", name="Exit", text="Exit", fontSize=60, color=(230, 230, 230), onColor=(200, 200, 200), pressColor=(150, 150, 150), func=self.Exit)
 
         def ToLevelSelector(self):
             Menus.currentStage = "Level Selector"
@@ -76,11 +76,11 @@ class Menus:
             self.BackGround = Background()
 
             self.sliderVolume = Slider(text="Volume", x=150, y=20, w=400, h=100, out_x=20)
-            self.buttonMenu = Button(x=150, y=280, w=400, h=100, name="Menu", text="Menu", color=(0, 230, 230), onColor=(0, 200, 200), pressColor=(0, 150, 150), fontSize=25, func=self.ToMenu)
+            self.buttonMenu = Button(x=150, y=280, w=400, h=100, spriteName="D1_Button", name="Menu", text="Menu", color=(230, 230, 230), onColor=(200, 200, 200), pressColor=(150, 150, 150), fontSize=25, func=self.ToMenu)
 
             self.languages_button = [
-                Button(x=150, y=140, w=180, h=100, name="Ru", text="Russian", color=(0, 230, 230), onColor=(0, 200, 200), pressColor=(0, 150, 150), fontSize=25, func=lambda: self.ChangeLanguage("ru")),
-                Button(x=370, y=140, w=180, h=100, name="En", text="English", color=(0, 230, 230), onColor=(0, 200, 200), pressColor=(0, 150, 150), fontSize=25, func=lambda: self.ChangeLanguage("en")),
+                Button(x=150, y=140, w=180, h=100, spriteName="Ru", name=None, text=None, color=(230, 230, 230), onColor=(200, 200, 200), pressColor=(150, 150, 150), fontSize=25, func=lambda: self.ChangeLanguage("ru")),
+                Button(x=370, y=140, w=180, h=100, spriteName="Eng", name=None, text=None, color=(230, 230, 230), onColor=(200, 200, 200), pressColor=(150, 150, 150), fontSize=25, func=lambda: self.ChangeLanguage("en")),
             ]
 
         def ToMenu(self):
@@ -122,17 +122,17 @@ class Menus:
 
             self.u_speedPanel = Panel(x=20, y=0, w=230, h=310, color=(220, 220, 220, 150))
             self.u_speedImage = Image(x=50, y=20, w=160, h=220)
-            self.u_speedButton = Button(x=20, y=240, w=230, h=70, name="Speed", text="Speed", color=(0, 230, 230), onColor=(0, 200, 200), pressColor=(0, 150, 150), fontSize=25, func=lambda: self.UpgradeStat("speed_level"))
+            self.u_speedButton = Button(x=20, y=240, w=230, h=70, spriteName="D1_Button", name="Speed", text="Speed", color=(230, 230, 230), onColor=(200, 200, 200), pressColor=(150, 150, 150), fontSize=25, func=lambda: self.UpgradeStat("speed_level"))
 
             self.u_jumpPanel = Panel(x=450, y=0, w=230, h=310, color=(220, 220, 220, 150))
             self.u_jumpImage = Image(x=490, y=20, w=160, h=220, name="U_Jump")
-            self.u_jumpButton =  Button(x=450, y=240, w=230, h=70, name="Jump", text="Jump", color=(0, 230, 230), onColor=(0, 200, 200), pressColor=(0, 150, 150), fontSize=25, func=lambda: self.UpgradeStat("jump_level"))
+            self.u_jumpButton =  Button(x=450, y=240, w=230, h=70, spriteName="D1_Button", name="Jump", text="Jump", color=(230, 230, 230), onColor=(200, 200, 200), pressColor=(150, 150, 150), fontSize=25, func=lambda: self.UpgradeStat("jump_level"))
 
             self.u_coinPanel = Panel(x=270, y=0, w=160, h=310, color=(220, 220, 220, 150))
             self.u_coinImage = Image(x=270, y=20, w=160, h=184, name="U_Coin")
             self.u_coinText = Text(x=270, y=240, w=160, h=70, text="100", fontSize=30)
 
-            self.buttonMenu = Button(x=150, y=330, w=400, h=50, name="Menu", text="Menu", color=(0, 230, 230), onColor=(0, 200, 200), pressColor=(0, 150, 150), fontSize=25, func=self.ToMenu)
+            self.buttonMenu = Button(x=150, y=330, w=400, h=50, spriteName="D1_Button", name="Menu", text="Menu", color=(230, 230, 230), onColor=(200, 200, 200), pressColor=(150, 150, 150), fontSize=25, func=self.ToMenu)
 
 
         def ToMenu(self):
@@ -141,14 +141,14 @@ class Menus:
 
         def UpgradeStat(self, name):
             # print(SavesManager.save["player"][name] + 1,  PLAYER_SPEED_LEVELS.keys())
-            if (name == "jump_level"):
+            if (name == "speed_level"):
                 if (SavesManager.save["player"][name] + 1 in PLAYER_SPEED_LEVELS.keys()):
                     if (SavesManager.save["player"]["moneys"] >= PLAYER_SPEED_LEVELS[SavesManager.save["player"][name] + 1]["price"]):
                         SavesManager.save["player"]["moneys"] -= PLAYER_SPEED_LEVELS[SavesManager.save["player"][name] + 1]["price"]
                         SavesManager.save["player"][name] += 1
                     else:
                         print("You don't have moneys!")
-            elif (name == "speed_level"):
+            elif (name == "jump_level"):
                 if (SavesManager.save["player"][name] + 1 in PLAYER_JUMP_FORCE_LEVELS.keys()):
                     if (SavesManager.save["player"]["moneys"] >= PLAYER_JUMP_FORCE_LEVELS[SavesManager.save["player"][name] + 1]["price"]):
                         SavesManager.save["player"]["moneys"] -= PLAYER_JUMP_FORCE_LEVELS[SavesManager.save["player"][name] + 1]["price"]
@@ -170,13 +170,22 @@ class Menus:
             # self.surface.fill((255, 255, 255))
             self.surface.blit(self.BackGround.image, self.BackGround.rect)
 
+            textSpeed = "Max"
+            textJump = "Max"
+
+            if (SavesManager.save["player"]["speed_level"] + 1 in PLAYER_SPEED_LEVELS.keys()):
+                textSpeed = f': {PLAYER_SPEED_LEVELS[SavesManager.save["player"]["speed_level"] + 1]["price"]}'
+
+            if (SavesManager.save["player"]["jump_level"] + 1 in PLAYER_JUMP_FORCE_LEVELS.keys()):
+                textJump = f': {PLAYER_JUMP_FORCE_LEVELS[SavesManager.save["player"]["jump_level"] + 1]["price"]}'
+
             self.surface.blit(self.u_speedPanel.image, self.u_speedPanel.rect)
             self.surface.blit(self.u_speedImage.image, self.u_speedImage.rect)
-            self.u_speedButton.Update(self.surface)
+            self.u_speedButton.Update(self.surface, textSpeed)
 
             self.surface.blit(self.u_jumpPanel.image, self.u_jumpPanel.rect)
             self.surface.blit(self.u_jumpImage.image, self.u_jumpImage.rect)
-            self.u_jumpButton.Update(self.surface)
+            self.u_jumpButton.Update(self.surface, textJump)
 
             self.surface.blit(self.u_coinPanel.image, self.u_coinPanel.rect)
             self.surface.blit(self.u_coinImage.image, self.u_coinImage.rect)
@@ -194,11 +203,12 @@ class Menus:
         def __init__(self, surface):
             self.surface = surface
 
-            self.buttonMenu = Button(200, 210, 300, 70, name=None, text="Menu", fontSize=60, color=(0, 230, 230), onColor=(0, 200, 200), pressColor=(0, 150, 150), func=self.ToMenu)
+            self.BackGround = Background()
+            self.buttonMenu = Button(200, 210, 300, 70,spriteName="D1_Button", name="Menu", text="Menu", fontSize=60, color=(230, 230, 230), onColor=(200, 200, 200), pressColor=(150, 150, 150), func=self.ToMenu)
 
             self.worldButtons = [
-                Button(200, 20, 300, 70, name=None, text="World_1", fontSize=60, color=(0, 230, 230), onColor=(0, 200, 200), pressColor=(0, 150, 150), func=lambda: self.ChangeWorldType("World_1")),
-                Button(200, 110, 300, 70, name=None, text="World_2", fontSize=60, color=(0, 230, 230), onColor=(0, 200, 200), pressColor=(0, 150, 150), func=lambda: self.ChangeWorldType("World_2"))
+                Button(200, 20, 300, 70,spriteName="D1_Button", name=None, text="World_1", fontSize=60, color=(230, 230, 230), onColor=(200, 200, 200), pressColor=(150, 150, 150), func=lambda: self.ChangeWorldType("World_1")),
+                Button(200, 110, 300, 70,spriteName="D1_Button", name=None, text="World_2", fontSize=60, color=(230, 230, 230), onColor=(200, 200, 200), pressColor=(150, 150, 150), func=lambda: self.ChangeWorldType("World_2"))
             ]
 
 
@@ -218,6 +228,7 @@ class Menus:
                     sys.exit()
 
             self.surface.fill(BACKGROUND_COLOR)
+            self.surface.blit(self.BackGround.image, self.BackGround.rect)
 
             for button in self.worldButtons:
                 button.Update(self.surface)
@@ -238,9 +249,9 @@ class Menus:
             self.CAMERA = CameraLevelCreator(camera_configure, TOTAL_WIDTH, TOTAL_HEIGHT)
 
             self.buttons = [
-                Button(x=600, y=000, text="P", func=lambda: Tools.ChangeTool(Tools, "Paint")),
-                Button(x=600, y=100, text="E", func=lambda: Tools.ChangeTool(Tools, "Earse")),
-                Button(x=600, y=200, text="Menu", func=self.ToMenu)
+                Button(x=600, y=000, text=None, spriteName="Paint", color=(230, 230, 230), onColor=(200, 200, 200), pressColor=(150, 150, 150), func=lambda: Tools.ChangeTool(Tools, "Paint")),
+                Button(x=600, y=100, text=None, spriteName="Earse", color=(230, 230, 230), onColor=(200, 200, 200), pressColor=(150, 150, 150), func=lambda: Tools.ChangeTool(Tools, "Earse")),
+                Button(x=600, y=200, text=None, spriteName="Back", color=(230, 230, 230), onColor=(200, 200, 200), pressColor=(150, 150, 150), func=self.ToMenu)
             ]
 
             self.matrix = []
@@ -334,7 +345,7 @@ class Menus:
 
             self.BackGround = Background()
 
-            self.buttonMenu = Button(x=650, y=0, w=50, h=50, name="Menu", text="Menu", color=(230, 0, 0), onColor=(200, 0, 0), pressColor=(150, 0, 0), fontSize=25, func=self.ToMenu)
+            self.buttonMenu = Button(x=650, y=0, w=50, h=50, spriteName="Back", name=None, text=None, color=(230, 230, 230), onColor=(200, 200, 200), pressColor=(150, 150, 150), fontSize=25, func=self.ToMenu)
             self.levelButtons = []
             self.last = []
 
@@ -346,15 +357,10 @@ class Menus:
             if (new != self.last):
                 names = [i.rsplit(".", 1)[0] for i in new]
 
-                x, y, step = 0, 0, BUTTON_LEVEL_SELECTOR_SIZE[0]
+                x, y, step = (WIN_WIDTH - BUTTON_LEVEL_SELECTOR_SIZE[0]) // 2, (WIN_HEIGHT - BUTTON_LEVEL_SELECTOR_SIZE[1]) // 2, BUTTON_LEVEL_SELECTOR_STEP
                 for name in names:
-                    if (x < WIN_WIDTH - 100):
-                        self.levelButtons.append(Button(x=x, y=y, w=BUTTON_LEVEL_SELECTOR_SIZE[0], h=BUTTON_LEVEL_SELECTOR_SIZE[0], text=name.rstrip("_")[-1], color=(230, 230, 230), onColor=(200, 200, 200), pressColor=(150, 150, 150), func=self.ToGame, kwargs={"levelName": name}))
-                        x += step
-                    else:
-                        y += step
-                        self.levelButtons.append(Button(x=0, y=y, w=BUTTON_LEVEL_SELECTOR_SIZE[0], h=BUTTON_LEVEL_SELECTOR_SIZE[0], text=name.rstrip("_")[-1], color=(230, 230, 230), onColor=(200, 200, 200), pressColor=(150, 150, 150), func=self.ToGame, kwargs={"levelName": name}))
-                        x = 100
+                    self.levelButtons.append(Button(x=x, y=y, w=BUTTON_LEVEL_SELECTOR_SIZE[0], h=BUTTON_LEVEL_SELECTOR_SIZE[1], spriteName="Empty", text=name.rstrip("_")[-1], fontSize=60, color=(230, 230, 230), onColor=(200, 200, 200), pressColor=(150, 150, 150), func=self.ToGame, kwargs={"levelName": name}))
+                    x += step
 
                 self.last = new
 
@@ -369,11 +375,23 @@ class Menus:
             Menus.currentStage = "Menu"
             time.sleep(PAUSE_TO_LOAD)
 
+
         def Update(self, windows):
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     SavesManager.SaveGame(SavesManager)
                     sys.exit()
+
+                elif (event.type == pygame.KEYUP):
+                    if (event.key == pygame.K_d):
+                        if (self.levelButtons[-1].x >= SCROLL_LEVEL_SELECTOR_STEP):
+                            for button in self.levelButtons:
+                                button.x -= SCROLL_LEVEL_SELECTOR_STEP
+
+                    elif (event.key == pygame.K_a):
+                        if (self.levelButtons[0].x <= 0):
+                            for button in self.levelButtons:
+                                button.x += SCROLL_LEVEL_SELECTOR_STEP
 
             self.surface.blit(self.BackGround.image, self.BackGround.rect)
             self.GenerateButtons()
@@ -391,7 +409,8 @@ class Menus:
             self.surface = surface
 
             self.BackGround = Background()
-            self.DieText = Text(text="DIE! Press R to restart!", w=WIN_WIDTH, h=WIN_HEIGHT, color=(255, 255, 255, 1), fontSize=90)
+            self.DieText = Text(text="DIE! Press R to restart!", name="Die", w=WIN_WIDTH, h=WIN_HEIGHT, color=(30, 30, 30, 1), fontSize=90)
+            # self.DieImage = pygame.image.load(PICTURE_AFTER_DIE)
             self.level_name = Menus.currentLevel
 
             self.on_level_collect = 0
@@ -411,7 +430,7 @@ class Menus:
 
             self.camera = None
 
-            self.buttonMenu = Button(x=650, y=0, w=50, h=50, name="LS", text="LS", color=(230, 0, 0), onColor=(200, 0, 0), pressColor=(150, 0, 0), fontSize=25, func=self.ToLevelSelector)
+            self.buttonMenu = Button(x=650, y=0, w=50, h=50, spriteName="Back", name=None, text=None, color=(230, 230, 230), onColor=(200, 200, 200), pressColor=(150, 150, 150), fontSize=25, func=self.ToLevelSelector)
 
             self.GenerateLevel()
 
@@ -436,6 +455,12 @@ class Menus:
             self.level = self.level["map"]
 
             self.BackGround = Background(typeWorld=typeWorld)
+
+            if (typeWorld == "World_2"):
+                self.sound.stop()
+                self.sound = pygame.mixer.Sound(SOUNDS_GAME["W2_Music"])
+                self.sound.set_volume(SavesManager.AUDIO_VOLUME)
+                self.sound.play(loops=10000)
 
             x, y, step = 0, 0, 32
             level_for = ""
@@ -519,6 +544,8 @@ class Menus:
 
             else:
                 self.DieText.Update(self.surface)
+                # self.surface.blit(self.DieImage, (0, 0))
+                
 
             self.buttonMenu.Update(self.surface)
 
