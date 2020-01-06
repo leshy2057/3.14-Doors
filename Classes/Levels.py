@@ -409,7 +409,7 @@ class Menus:
             self.surface = surface
 
             self.BackGround = Background()
-            self.DieText = Text(text="DIE! Press R to restart!", w=WIN_WIDTH, h=WIN_HEIGHT, color=(255, 255, 255, 1), fontSize=90)
+            self.DieText = Text(text="DIE! Press R to restart!", name="Die", w=WIN_WIDTH, h=WIN_HEIGHT, color=(30, 30, 30, 1), fontSize=90)
             # self.DieImage = pygame.image.load(PICTURE_AFTER_DIE)
             self.level_name = Menus.currentLevel
 
@@ -455,6 +455,12 @@ class Menus:
             self.level = self.level["map"]
 
             self.BackGround = Background(typeWorld=typeWorld)
+
+            if (typeWorld == "World_2"):
+                self.sound.stop()
+                self.sound = pygame.mixer.Sound(SOUNDS_GAME["W2_Music"])
+                self.sound.set_volume(SavesManager.AUDIO_VOLUME)
+                self.sound.play(loops=10000)
 
             x, y, step = 0, 0, 32
             level_for = ""

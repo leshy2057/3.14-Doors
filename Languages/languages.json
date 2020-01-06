@@ -10,7 +10,8 @@
     "Upgrade": "Upgrade",
     "Speed": "Speed",
     "Jump": "Jump",
-    "Level Creator": "Level Creator"
+    "Level Creator": "Level Creator",
+    "Die": "DIE! Press R to restart!"
   },
   "ru":{
     "Start": "Старт",
@@ -23,6 +24,7 @@
     "Upgrade": "Улучшения",
     "Speed": "Скорость",
     "Jump": "Прыжок",
-    "Level Creator": "Конструктор"
+    "Level Creator": "Конструктор",
+    "Die": "Потрачено! Нажми R!"
   }
 }
