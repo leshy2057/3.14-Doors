@@ -49,6 +49,21 @@ class Player(pygame.sprite.Sprite):
         self.soundWater = pygame.mixer.Sound(SOUNDS_GAME["Water"])
         self.soundWater.set_volume(SavesManager.AUDIO_VOLUME)
 
+        self.soundCollectCoin = pygame.mixer.Sound(SOUNDS_GAME["CollectCoin"])
+        self.soundCollectCoin.set_volume(SavesManager.AUDIO_VOLUME)
+
+        self.soundCollectKey = pygame.mixer.Sound(SOUNDS_GAME["CollectKey"])
+        self.soundCollectKey.set_volume(SavesManager.AUDIO_VOLUME)
+
+        self.soundLockedDoor = pygame.mixer.Sound(SOUNDS_GAME["LockedDoor"])
+        self.soundLockedDoor.set_volume(SavesManager.AUDIO_VOLUME)
+
+        self.soundOpenDoor = pygame.mixer.Sound(SOUNDS_GAME["OpenDoor"])
+        self.soundOpenDoor.set_volume(SavesManager.AUDIO_VOLUME)
+
+        self.soundSpikesTrap = pygame.mixer.Sound(SOUNDS_GAME["SpikeTrap"])
+        self.soundSpikesTrap.set_volume(SavesManager.AUDIO_VOLUME)
+
         self.use = False
 
         self.die = False
@@ -60,41 +75,45 @@ class Player(pygame.sprite.Sprite):
 
 
     def Move(self, keys):
-        if not (keys[pygame.K_d] or keys[pygame.K_a]):  # стоим, когда нет указаний идти
-            if (self.xvel > 0):
-                self.stage = "nr"
-            elif (self.xvel < 0):
-                self.stage = "nl"
-            else:
-                self.stage = 'nr' if (self.leftRight == "right") else 'nl'
-            self.xvel = 0
+        if (not self.inDoor):
+            if not (keys[pygame.K_d] or keys[pygame.K_a]):  # стоим, когда нет указаний идти
+                if (self.xvel > 0):
+                    self.stage = "nr"
+                elif (self.xvel < 0):
+                    self.stage = "nl"
+                else:
+                    self.stage = 'nr' if (self.leftRight == "right") else 'nl'
+                self.xvel = 0
 
-        if (keys[pygame.K_d]):
-            if (self._movingX == -self.speed):
-                self.Flip()
-                self._movingX = self.speed
-            self.xvel = self.speed
-            self.leftRight = "right"
-            if (not keys[pygame.K_SPACE]):
-                self.stage = 'r'
-        elif (keys[pygame.K_a]):
-            if (self._movingX == self.speed):
-                self.Flip()
-                self._movingX = -self.speed
-            self.xvel = -self.speed
-            self.leftRight = "left"
-            if (not keys[pygame.K_SPACE]):
-                self.stage = 'l'
-
-        if (keys[pygame.K_SPACE]):
-            if self.onGround:  # прыгаем, только когда можем оттолкнуться от земли
-                self.yvel = -self.JUMP_POWER
             if (keys[pygame.K_d]):
-                self.stage = 'jr'
+                if (self._movingX == -self.speed):
+                    self.Flip()
+                    self._movingX = self.speed
+                self.xvel = self.speed
+                self.leftRight = "right"
+                if (not keys[pygame.K_SPACE]):
+                    self.stage = 'r'
             elif (keys[pygame.K_a]):
-                self.stage = 'jl'
-            else:
-                self.stage = 'jr' if (self.leftRight == "right") else 'jl'
+                if (self._movingX == self.speed):
+                    self.Flip()
+                    self._movingX = -self.speed
+                self.xvel = -self.speed
+                self.leftRight = "left"
+                if (not keys[pygame.K_SPACE]):
+                    self.stage = 'l'
+
+            if (keys[pygame.K_SPACE]):
+                if self.onGround:  # прыгаем, только когда можем оттолкнуться от земли
+                    self.yvel = -self.JUMP_POWER
+                if (keys[pygame.K_d]):
+                    self.stage = 'jr'
+                elif (keys[pygame.K_a]):
+                    self.stage = 'jl'
+                else:
+                    self.stage = 'jr' if (self.leftRight == "right") else 'jl'
+        else:
+            self.stage = 'nr' if (self.leftRight == "right") else 'nl'
+            self.xvel = 0
 
         if not self.onGround:
             self.yvel += self.GRAVITY
@@ -155,12 +174,18 @@ class Player(pygame.sprite.Sprite):
                         self.p = 'j'
                 elif (prefab.tag == "Coin" and not prefab.use):
                     self.on_level_collect += 1
+                    self.soundCollectCoin.play()
                     prefab.use = True
                 elif (prefab.tag == "Key" and not prefab.use):
                     self.getKey = True
+                    self.soundCollectKey.play()
                     prefab.use = True
-                elif (prefab.tag == "Door" and not prefab.use and self.getKey):
-                    self.inDoor = True
+                elif (prefab.tag == "Door"):
+                        if (not prefab.use and self.getKey):
+                            self.soundOpenDoor.play()
+                            self.inDoor = True
+                        else:
+                            self.soundLockedDoor.play()
                 elif ((prefab.tag == "Water") and not prefab.use):
                     self.soundWater.play()
                 elif ((prefab.tag == "WaterKill") and not prefab.use):
@@ -168,6 +193,7 @@ class Player(pygame.sprite.Sprite):
 
             if (pygame.sprite.collide_mask(self, prefab)):
                 if (prefab.tag == "Spikes"):
+                    self.soundSpikesTrap.play()
                     self.die = True
 
 

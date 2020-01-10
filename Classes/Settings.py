@@ -179,5 +179,10 @@ SOUNDS_GAME = {
     "W2_Music": "Sounds\\Game\\W2_Background.ogg",
     "Step": "Sounds\\Game\\Step.ogg",
     "Water": "Sounds\\Game\\FallWater.ogg",
+    "CollectCoin": "Sounds\\Game\\CollectCoin.ogg",
+    "CollectKey": "Sounds\\Game\\CollectKey.ogg",
+    "LockedDoor": "Sounds\\Game\\LockedDoor.ogg",
+    "SpikeTrap": "Sounds\\Game\\SpikeTrap.ogg",
+    "OpenDoor": "Sounds\\Game\\OpenDoor.ogg",
 }
 

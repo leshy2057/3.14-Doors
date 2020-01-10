@@ -426,6 +426,8 @@ class Menus:
             self.sound = pygame.mixer.Sound(SOUNDS_GAME["W1_Music"])
             self.sound.set_volume(SavesManager.AUDIO_VOLUME)
 
+            self.toLevelSelectorTimer = 0.3
+
             self.sound.play(loops=10000)
 
             self.camera = None
@@ -550,9 +552,13 @@ class Menus:
             self.buttonMenu.Update(self.surface)
 
             if (self.player.inDoor):
-                SavesManager.ApeendMoneys(SavesManager, self.player.on_level_collect)
-                self.OpenNextLevel()
-                SavesManager.SaveGame(SavesManager)
-                self.ToLevelSelector()
+                if (self.toLevelSelectorTimer <= 0):
+                    SavesManager.ApeendMoneys(SavesManager, self.player.on_level_collect)
+                    self.OpenNextLevel()
+                    SavesManager.SaveGame(SavesManager)
+                    self.ToLevelSelector()
+                self.toLevelSelectorTimer -= (pygame.time.get_ticks() - self.getTicksLastFrame) / 1000.0
+
+            self.getTicksLastFrame = pygame.time.get_ticks()
 
             windows.blit(self.surface, (0, 0))
