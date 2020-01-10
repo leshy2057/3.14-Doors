@@ -251,7 +251,8 @@ class Menus:
             self.buttons = [
                 Button(x=600, y=000, text=None, spriteName="Paint", color=(230, 230, 230), onColor=(200, 200, 200), pressColor=(150, 150, 150), func=lambda: Tools.ChangeTool(Tools, "Paint")),
                 Button(x=600, y=100, text=None, spriteName="Earse", color=(230, 230, 230), onColor=(200, 200, 200), pressColor=(150, 150, 150), func=lambda: Tools.ChangeTool(Tools, "Earse")),
-                Button(x=600, y=200, text=None, spriteName="Back", color=(230, 230, 230), onColor=(200, 200, 200), pressColor=(150, 150, 150), func=self.ToMenu)
+                Button(x=600, y=200, text=None, spriteName="Save", color=(230, 230, 230), onColor=(200, 200, 200), pressColor=(150, 150, 150), func=self.GenrateLevel),
+                Button(x=600, y=300, text=None, spriteName="Back", color=(230, 230, 230), onColor=(200, 200, 200), pressColor=(150, 150, 150), func=self.ToMenu)
             ]
 
             self.matrix = []
