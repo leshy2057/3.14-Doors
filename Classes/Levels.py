@@ -251,7 +251,8 @@ class Menus:
             self.buttons = [
                 Button(x=600, y=000, text=None, spriteName="Paint", color=(230, 230, 230), onColor=(200, 200, 200), pressColor=(150, 150, 150), func=lambda: Tools.ChangeTool(Tools, "Paint")),
                 Button(x=600, y=100, text=None, spriteName="Earse", color=(230, 230, 230), onColor=(200, 200, 200), pressColor=(150, 150, 150), func=lambda: Tools.ChangeTool(Tools, "Earse")),
-                Button(x=600, y=200, text=None, spriteName="Back", color=(230, 230, 230), onColor=(200, 200, 200), pressColor=(150, 150, 150), func=self.ToMenu)
+                Button(x=600, y=200, text=None, spriteName="Save", color=(230, 230, 230), onColor=(200, 200, 200), pressColor=(150, 150, 150), func=self.GenrateLevel),
+                Button(x=600, y=300, text=None, spriteName="Back", color=(230, 230, 230), onColor=(200, 200, 200), pressColor=(150, 150, 150), func=self.ToMenu)
             ]
 
             self.matrix = []
@@ -426,6 +427,8 @@ class Menus:
             self.sound = pygame.mixer.Sound(SOUNDS_GAME["W1_Music"])
             self.sound.set_volume(SavesManager.AUDIO_VOLUME)
 
+            self.toLevelSelectorTimer = 0.3
+
             self.sound.play(loops=10000)
 
             self.camera = None
@@ -550,9 +553,13 @@ class Menus:
             self.buttonMenu.Update(self.surface)
 
             if (self.player.inDoor):
-                SavesManager.ApeendMoneys(SavesManager, self.player.on_level_collect)
-                self.OpenNextLevel()
-                SavesManager.SaveGame(SavesManager)
-                self.ToLevelSelector()
+                if (self.toLevelSelectorTimer <= 0):
+                    SavesManager.ApeendMoneys(SavesManager, self.player.on_level_collect)
+                    self.OpenNextLevel()
+                    SavesManager.SaveGame(SavesManager)
+                    self.ToLevelSelector()
+                self.toLevelSelectorTimer -= (pygame.time.get_ticks() - self.getTicksLastFrame) / 1000.0
+
+            self.getTicksLastFrame = pygame.time.get_ticks()
 
             windows.blit(self.surface, (0, 0))
