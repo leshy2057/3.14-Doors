@@ -80,7 +80,6 @@ COLOR = (0, 0, 0)
 WIN_WIDTH = 700  # Ширина создаваемого окна
 WIN_HEIGHT = 400  # Высота
 
-
 PAUSE_TO_LOAD = 0.01
 
 

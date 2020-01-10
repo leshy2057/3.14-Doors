@@ -19,7 +19,6 @@ GAME = None
 LEVEL_CREATOR = None
 
 runGame = True
-
 pygame.key.set_repeat(1, 10)
 while runGame:
     windows.fill([255, 255, 255])
