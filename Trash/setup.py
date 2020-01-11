@@ -13,7 +13,7 @@ except:
     else:
         sys.exit()
 
-exe = [cx_Freeze.Executable("main.py", base = "Win32GUI")] # <-- HERE
+exe = [cx_Freeze.Executable("main.py", icon="Images\\Images\\Icon.ico", base = "Win32GUI")] # <-- HERE
 build_exe_options = {'build_exe': '3.14 Doors'}
 
 cx_Freeze.setup(
