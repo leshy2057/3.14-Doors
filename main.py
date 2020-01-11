@@ -6,7 +6,7 @@ from Classes.Settings import *
 pygame.init()
 clock = pygame.time.Clock()
 windows = pygame.display.set_mode((WIN_WIDTH, WIN_HEIGHT))
-pygame.display.set_caption("Test")
+pygame.display.set_caption("3.14 Doors")
 
 surface = pygame.Surface((WIN_WIDTH, WIN_HEIGHT))
 
