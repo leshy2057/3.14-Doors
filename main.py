@@ -19,10 +19,9 @@ GAME = None
 LEVEL_CREATOR = None
 
 runGame = True
-
 pygame.key.set_repeat(1, 10)
 while runGame:
-    windows.fill([255, 255, 255])
+    windows.fill(Color.Black)
     if (Menus.currentStage == "Menu"):
         MENU.Update(windows)
         if (GAME):
@@ -54,7 +53,7 @@ while runGame:
             LEVEL_CREATOR = Menus.LevelCreator(windows)
         LEVEL_CREATOR.Update(windows)
 
-    clock.tick(30)
+    clock.tick(FPS)
     pygame.display.flip()
 
 
