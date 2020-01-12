@@ -39,7 +39,7 @@ class SavesManager:
             for name in names:
                 if (name not in self.save["levels"].keys()):
                     self.save["levels"][name] = {"open": False}
-        except: pass
+        except: print("Save file not found! Create new file...")
 
     def SaveGame(self):
         with open("Saves\\save.json", "w") as saves:
@@ -76,8 +76,8 @@ BUTTON_LEVEL_SELECTOR_SIZE = (150, 150)
 BUTTON_LEVEL_SELECTOR_STEP = 300
 SCROLL_LEVEL_SELECTOR_STEP = 300
 
+FPS = 30
 
-COLOR = (0, 0, 0)
 WIN_WIDTH = 700  # Ширина создаваемого окна
 WIN_HEIGHT = 400  # Высота
 
@@ -247,3 +247,10 @@ class PlayerImages:
 
 
 PlayerImages.GenerateImages(PlayerImages)
+
+
+
+class Color:
+    White = (0, 0, 0)
+    Black = (255, 255, 255)
+

@@ -27,11 +27,11 @@ class Menus:
             self.surface = surface
 
             self.BackGround = Background()
-            self.buttonStart = Button(200, 5, 300, 70,spriteName="D1_Button",  name="Start", text="Start", fontSize=60, color=(230, 230, 230), onColor=(200, 200, 200), pressColor=(150, 150, 150), func=self.ToLevelSelector)
-            self.buttonSettings = Button(200, 85, 300, 70,spriteName="D1_Button", name="Settings", text="Settings", fontSize=60, color=(230, 230, 230), onColor=(200, 200, 200), pressColor=(150, 150, 150), func=self.ToLevelSettings)
-            self.buttonUpgrade = Button(200, 165, 300, 70,spriteName="D1_Button", name="Upgrade", text="Upgrade", fontSize=60, color=(230, 230, 230), onColor=(200, 200, 200), pressColor=(150, 150, 150), func=self.ToLevelUpgrade)
-            self.buttonCreator = Button(200, 245, 300, 70,spriteName="D1_Button", name="Level Creator", text="Level Creator", fontSize=60, color=(230, 230, 230), onColor=(200, 200, 200), pressColor=(150, 150, 150), func=self.ToLevelCreator)
-            self.buttonExit = Button(200, 325, 300, 70,spriteName="D1_Button", name="Exit", text="Exit", fontSize=60, color=(230, 230, 230), onColor=(200, 200, 200), pressColor=(150, 150, 150), func=self.Exit)
+            self.buttonStart = Button(200, 5, 300, 70, spriteName="D1_Button",  name="Start", text="Start", fontSize=60, color=(230, 230, 230), onColor=(200, 200, 200), pressColor=(150, 150, 150), func=self.ToLevelSelector)
+            self.buttonSettings = Button(200, 85, 300, 70, spriteName="D1_Button", name="Settings", text="Settings", fontSize=60, color=(230, 230, 230), onColor=(200, 200, 200), pressColor=(150, 150, 150), func=self.ToLevelSettings)
+            self.buttonUpgrade = Button(200, 165, 300, 70, spriteName="D1_Button", name="Upgrade", text="Upgrade", fontSize=60, color=(230, 230, 230), onColor=(200, 200, 200), pressColor=(150, 150, 150), func=self.ToLevelUpgrade)
+            self.buttonCreator = Button(200, 245, 300, 70, spriteName="D1_Button", name="Level Creator", text="Level Creator", fontSize=60, color=(230, 230, 230), onColor=(200, 200, 200), pressColor=(150, 150, 150), func=self.ToLevelCreator)
+            self.buttonExit = Button(200, 325, 300, 70, spriteName="D1_Button", name="Exit", text="Exit", fontSize=60, color=(230, 230, 230), onColor=(200, 200, 200), pressColor=(150, 150, 150), func=self.Exit)
 
         def ToLevelSelector(self):
             Menus.currentStage = "Level Selector"
