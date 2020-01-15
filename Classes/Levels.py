@@ -354,6 +354,7 @@ class Menus:
 
 
         def GenerateButtons(self):
+            self.levelButtons = []
             new = os.listdir(f"{os.getcwd()}\\Levels")
             if (new != self.last):
                 names = [i.rsplit(".", 1)[0] for i in new]
@@ -395,7 +396,8 @@ class Menus:
                                 button.x += SCROLL_LEVEL_SELECTOR_STEP
 
             self.surface.blit(self.BackGround.image, self.BackGround.rect)
-            self.GenerateButtons()
+            if (len(self.levelButtons) < len(os.listdir(f"{os.getcwd()}\\Levels"))):
+                self.GenerateButtons()
 
             for i in self.levelButtons:
                 i.Update(self.surface)
