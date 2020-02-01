@@ -1,2 +1,2 @@
-pygame
-requests
+pygame 1.71
+requests 2.18.4
